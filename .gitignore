@@ -1,0 +1,5 @@
+.idea/
+vendor/
+
+# only apps need a lock, not libraries
+composer.lock

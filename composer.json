@@ -1,0 +1,29 @@
+{
+    "name": "shish/microcrud",
+    "type": "library",
+    "description": "A minimal CRUD generating library",
+    "keywords": ["generator", "crud"],
+    "homepage": "https://github.com/shish/microcrud",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Shish",
+            "email": "webmaster@shishnet.org",
+            "homepage": "http://shishnet.org",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "ext-pdo": "*",
+        "shish/microhtml": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "8.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "MicroCRUD\\": "src"
+        }
+    }
+}
