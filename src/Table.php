@@ -1,8 +1,6 @@
 <?php
 namespace MicroCRUD;
 
-require_once "vendor/autoload.php";
-
 use MicroHTML\HTMLElement;
 use function MicroHTML\TABLE;
 use function MicroHTML\THEAD;
@@ -15,7 +13,6 @@ use function MicroHTML\INPUT;
 use function MicroHTML\FORM;
 use function MicroHTML\DIV;
 use function MicroHTML\A;
-use function MicroHTML\BR;
 
 class Table
 {

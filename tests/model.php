@@ -12,6 +12,7 @@ class IPBanTable extends Table {
 		";
 
 		$this->size = 10;
+		$this->limit = 20;
 		$this->columns = [
 			new StringColumn("ip", "IP"),
 			new EnumColumn("mode", "Mode", ["Block"=>"block", "Firewall"=>"firewall"]),

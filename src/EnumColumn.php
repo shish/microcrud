@@ -25,7 +25,7 @@ class EnumColumn extends StringColumn
         $s->appendChild(OPTION(["value"=>""], '-'));
         foreach ($this->options as $k => $v) {
             $attrs = ["value"=>$v];
-            if ($v == @$_GET["s_{$this->name}"]) {
+            if ($v == @$_GET["r_{$this->name}"]) {
                 $attrs["selected"] = true;
             }
             $s->appendChild(OPTION($attrs, $k));

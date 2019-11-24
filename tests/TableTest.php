@@ -27,11 +27,15 @@ class CRUDTableTest extends \PHPUnit\Framework\TestCase {
 	public function test_size() {
 		$_GET["s__size"] = 5;
 		$t = new IPBanTable($this->db);
-		$rows = $t->query();
-		$this->assertEquals("1.2.3.1", $rows[0]["ip"]);
-		$this->assertEquals(5, count($rows));
-		$n = $t->count();
-		$this->assertEquals(24, $n);
+		$this->assertEquals(5, count($t->query()));
+		$this->assertEquals(24, $t->count());
+	}
+
+	public function test_limit() {
+		$_GET["s__size"] = 9001;
+		$t = new IPBanTable($this->db);
+		$this->assertEquals(20, count($t->query()));
+		$this->assertEquals(24, $t->count());
 	}
 
 	//class TableTest extends CRUDTableTest {
@@ -92,5 +96,11 @@ class CRUDTableTest extends \PHPUnit\Framework\TestCase {
 
 		$this->assertEquals("1=1 AND (banner = :banner)", $q);
 		$this->assertEquals(['banner' => 'User1'], $a);
+	}
+
+	// other html
+	public function test_paginator() {
+		$t = new IPBanTable($this->db);
+		$this->assertStringContainsString("1", $t->paginator());
 	}
 }
