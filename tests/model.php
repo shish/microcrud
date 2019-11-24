@@ -37,9 +37,17 @@ function create_mock_db() {
 		PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 	]);
 
+	# FFS.
+	$dbe = explode(":", $dsn)[0];
+	$aipk = [
+		"pgsql" => "INTEGER PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY",
+		"sqlite" => "INTEGER PRIMARY KEY NOT NULL AUTOINCREMENT",
+		"mysql" => "INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT"
+	][$dbe];
+
 	$db->exec("DROP TABLE IF EXISTS users");
 	$db->exec("CREATE TABLE users (
-		id integer PRIMARY KEY AUTOINCREMENT,
+		id $aipk,
 		name text NOT NULL
 	);");
 	$db->exec("INSERT INTO users(name) VALUES ('User1');");
@@ -47,13 +55,13 @@ function create_mock_db() {
 
 	$db->exec("DROP TABLE IF EXISTS bans");
 	$db->exec("CREATE TABLE bans (
-		id integer PRIMARY KEY AUTOINCREMENT,
+		id $aipk,
 		ip inet NOT NULL,
-		mode text DEFAULT 'block' NOT NULL,
+		mode varchar DEFAULT 'block' NOT NULL,
 		reason text NOT NULL,
 		banner_id integer NOT NULL,
-		added timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-		expires timestamp without time zone
+		added timestamp DEFAULT CURRENT_TIMESTAMP,
+		expires timestamp
 	);");
 
 	$n = 1;
