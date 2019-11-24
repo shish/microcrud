@@ -1,124 +1,96 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
-
-use MicroCRUD\{Column,Table};
-
-function anywhere($s) {return "%$s%";}
-
-class IPBanTable extends Table {
-	function __construct() {
-		$this->table = "bans";
-		$this->base_query = "
-			SELECT *, users.name AS banner
-			FROM bans JOIN users ON banner_id=users.id
-		";
-
-		$this->limit = 100;
-		$this->columns = [
-			new Column("ip", "IP", "(ip = :ip)"),
-			new Column("reason", "Reason", "(reason LIKE :reason)", "anywhere"),
-			new Column("banner_id", "Banner", "(banner_id = (SELECT id FROM user WHERE name = :banner_id))", null, "banner"),
-			new Column("added", "Added", "(added LIKE :added)", "anywhere"),
-			new Column("expires", "Expires", "(expires LIKE :expires)", "anywhere"),
-			new Column("mode", "Mode", "(mode = :mode)"),
-		];
-		$this->order_by = ["expires", "id"];
-		$this->flags = [
-			"all" => ["((expires > CURRENT_TIMESTAMP) OR (expires IS NULL))", null],
-		];
-	}
-}
-
+require_once "model.php";
 
 class CRUDTableTest extends \PHPUnit\Framework\TestCase {
 	var $db = null;
 
 	function setUp(): void {
-		$this->db = new PDO('sqlite::memory:', null, null, [
-			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-		]);
-
-		$this->db->exec("CREATE TABLE users (
-            id integer PRIMARY KEY AUTOINCREMENT,
-            name text NOT NULL
-        );");
-		$this->db->exec("INSERT INTO users(name) VALUES ('User1');");
-		$this->db->exec("INSERT INTO users(name) VALUES ('User2');");
-
-		$this->db->exec("CREATE TABLE bans (
-            id integer PRIMARY KEY AUTOINCREMENT,
-            ip inet NOT NULL,
-            mode text DEFAULT 'block' NOT NULL,
-            reason text NOT NULL,
-            banner_id integer NOT NULL,
-            added timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-            expires timestamp without time zone
-        );");
-		$this->db->exec("INSERT INTO bans(ip, reason, banner_id) VALUES ('1.2.3.4', 'test reason', 1);");
-		$this->db->exec("INSERT INTO bans(ip, reason, banner_id) VALUES ('1.2.3.5', 'test reason', 1);");
-		$this->db->exec("INSERT INTO bans(ip, reason, banner_id) VALUES ('1.2.3.6', 'leech', 2);");
-		$this->db->exec("INSERT INTO bans(ip, reason, banner_id) VALUES ('1.2.3.7', 'leech', 2);");
-
+		$this->db = create_mock_db();
 		$_GET = [];
+	}
+
+	// Database queries
+	public function test_query() {
+		$t = new IPBanTable($this->db);
+		$rows = $t->query();
+		$this->assertEquals("1.2.3.1", $rows[0]["ip"]);
+		$this->assertEquals(10, count($rows));
+	}
+
+	public function test_count() {
+		$t = new IPBanTable($this->db);
+		$n = $t->count();
+		$this->assertEquals(24, $n);
+	}
+
+	public function test_size() {
+		$_GET["s__size"] = 5;
+		$t = new IPBanTable($this->db);
+		$rows = $t->query();
+		$this->assertEquals("1.2.3.1", $rows[0]["ip"]);
+		$this->assertEquals(5, count($rows));
+		$n = $t->count();
+		$this->assertEquals(24, $n);
 	}
 
 	//class TableTest extends CRUDTableTest {
 	public function test_table() {
-		$t = new IPBanTable();
-		$rows = $t->paged_query($this->db, 1);
+		$t = new IPBanTable($this->db);
+		$rows = $t->query();
 		$html = $t->table($rows);
 		$this->assertInstanceOf("\MicroHTML\HTMLElement", $html);
 	}
 
 	//class FilterTest extends CRUDTableTest {
 	public function test_default() {
-		$t = new IPBanTable();
+		$t = new IPBanTable($this->db);
 		list($q, $a) = $t->get_filter();
 
-		$this->assertEquals($q, "1=1 AND ((expires > CURRENT_TIMESTAMP) OR (expires IS NULL))");
-		$this->assertEquals($a, []);
+		$this->assertEquals("1=1 AND ((expires > CURRENT_TIMESTAMP) OR (expires IS NULL))", $q);
+		$this->assertEquals([], $a);
 	}
 
 	public function test_flag() {
 		$_GET["s_all"] = "on";
 
-		$t = new IPBanTable();
+		$t = new IPBanTable($this->db);
 		list($q, $a) = $t->get_filter();
 
-		$this->assertEquals($q, "1=1");
-		$this->assertEquals($a, []);
+		$this->assertEquals("1=1", $q);
+		$this->assertEquals([], $a);
 	}
 
 	public function test_eq() {
 		$_GET["s_all"] = "on";
 		$_GET["s_mode"] = "block";
 
-		$t = new IPBanTable();
+		$t = new IPBanTable($this->db);
 		list($q, $a) = $t->get_filter();
 
-		$this->assertEquals($q, "1=1 AND (mode = :mode)");
-		$this->assertEquals($a, ['mode' => 'block']);
+		$this->assertEquals("1=1 AND (mode = :mode)", $q);
+		$this->assertEquals(['mode' => 'block'], $a);
 	}
 
 	public function test_like() {
 		$_GET["s_all"] = "on";
 		$_GET["s_reason"] = "reason";
 
-		$t = new IPBanTable();
+		$t = new IPBanTable($this->db);
 		list($q, $a) = $t->get_filter();
 
-		$this->assertEquals($q, "1=1 AND (reason LIKE :reason)");
-		$this->assertEquals($a, ['reason' => '%reason%']);
+		$this->assertEquals("1=1 AND (reason LIKE :reason)", $q);
+		$this->assertEquals(['reason' => '%reason%'], $a);
 	}
 
 	public function test_foreign() {
 		$_GET["s_all"] = "on";
-		$_GET["s_banner_id"] = "User1";
+		$_GET["s_banner"] = "User1";
 
-		$t = new IPBanTable();
+		$t = new IPBanTable($this->db);
 		list($q, $a) = $t->get_filter();
 
-		$this->assertEquals($q, "1=1 AND (banner_id = (SELECT id FROM user WHERE name = :banner_id))");
-		$this->assertEquals($a, ['banner_id' => 'User1']);
+		$this->assertEquals("1=1 AND (banner = :banner)", $q);
+		$this->assertEquals(['banner' => 'User1'], $a);
 	}
 }
