@@ -28,21 +28,21 @@ class Column
         return $data;
     }
 
-    public function search_input()
+    public function read_input()
     {
         return INPUT([
-            "name"=>"s_{$this->name}",
+            "name"=>"r_{$this->name}",
             "placeholder"=>$this->title,
-            "value"=>@$_GET["s_{$this->name}"]
+            "value"=>@$_GET["r_{$this->name}"]
         ]);
     }
 
-    public function add_input()
+    public function create_input()
     {
         return INPUT([
-            "name"=>"a_{$this->name}",
+            "name"=>"c_{$this->name}",
             "placeholder"=>$this->title,
-            "value"=>@$_GET["a_{$this->name}"]
+            "value"=>@$_GET["c_{$this->name}"]
         ]);
     }
 }

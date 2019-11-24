@@ -24,7 +24,7 @@ class IPBanTable extends Table {
 		$this->flags = [
 			"all" => ["((expires > CURRENT_TIMESTAMP) OR (expires IS NULL))", null],
 		];
-		$this->create_url = "/ip_ban/add";
+		$this->create_url = "/ip_ban/create";
 		$this->delete_url = "/ip_ban/remove";
 	}
 }

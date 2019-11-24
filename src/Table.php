@@ -153,16 +153,16 @@ class Table
 
         $tr = TR();
         foreach ($this->columns as $col) {
-            $tr->appendChild(TH($col->search_input()));
+            $tr->appendChild(TH($col->read_input()));
         }
         $tr->appendChild(TH(
-            INPUT(["type"=>"hidden", "name"=>"s__size", "value"=>@$_GET["s__size"]]),
-            INPUT(["type"=>"hidden", "name"=>"s__page", "value"=>@$_GET["s__page"]]),
+            INPUT(["type"=>"hidden", "name"=>"r__size", "value"=>@$_GET["r__size"]]),
+            INPUT(["type"=>"hidden", "name"=>"r__page", "value"=>@$_GET["r__page"]]),
             INPUT(["type"=>"submit", "value"=>"Search"])
         ));
         foreach ($this->flags as $flag => $_vals) {
             $tr->appendChild(
-                INPUT(["type"=>"hidden", "name"=>"s_{$flag}", "value"=>@$_GET["s_{$flag}"]])
+                INPUT(["type"=>"hidden", "name"=>"r_{$flag}", "value"=>@$_GET["r_{$flag}"]])
             );
         }
         $thead->appendChild(FORM($tr));
@@ -183,7 +183,7 @@ class Table
                 $tr->appendChild(TD(FORM(
                     ["method"=>"POST", "action"=>$this->delete_url],
                     INPUT(["type"=>"hidden", "name"=>"auth_token", "value"=>$this->token]),
-                    INPUT(["type"=>"hidden", "name"=>"id", "value"=>$row["id"]]),
+                    INPUT(["type"=>"hidden", "name"=>"d_id", "value"=>$row["id"]]),
                     INPUT(["type"=>"submit", "value"=>"Delete"])
                 )));
             }
@@ -198,7 +198,7 @@ class Table
             $tr = TR();
             $tfoot->appendChild(FORM(["method"=>"POST", 'action'=>$this->create_url], $tr));
             foreach ($this->columns as $col) {
-                $tr->appendChild(TH($col->add_input()));
+                $tr->appendChild(TH($col->create_input()));
             }
             $tr->appendChild(TH(
                 INPUT(["type"=>"hidden", "name"=>"auth_token", "value"=>$this->token]),
@@ -218,7 +218,7 @@ class Table
 
     public function page_url(int $page): string
     {
-        return "?" . $this->modify_url(["s__page"=>$page]);
+        return "?" . $this->modify_url(["r__page"=>$page]);
     }
 
     public function paginator(): HTMLElement
