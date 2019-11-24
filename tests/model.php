@@ -31,10 +31,13 @@ class IPBanTable extends Table {
 }
 
 function create_mock_db() {
-	$db = new PDO('sqlite::memory:', null, null, [
+	$e = getenv('DSN');
+	$dsn = $e ? $e : 'sqlite::memory:';
+	$db = new PDO($dsn, null, null, [
 		PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 	]);
 
+	$db->exec("DROP TABLE IF EXISTS users");
 	$db->exec("CREATE TABLE users (
 		id integer PRIMARY KEY AUTOINCREMENT,
 		name text NOT NULL
@@ -42,6 +45,7 @@ function create_mock_db() {
 	$db->exec("INSERT INTO users(name) VALUES ('User1');");
 	$db->exec("INSERT INTO users(name) VALUES ('User2');");
 
+	$db->exec("DROP TABLE IF EXISTS bans");
 	$db->exec("CREATE TABLE bans (
 		id integer PRIMARY KEY AUTOINCREMENT,
 		ip inet NOT NULL,

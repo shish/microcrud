@@ -4,11 +4,13 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: PHP ${{ matrix.php-versions }}
+    name: PHP ${{ matrix.php }} / DB ${{ matrix.database }}
     strategy:
-      max-parallel: 15
+      max-parallel: 3
+      fail-fast: false
       matrix:
-        php-versions: ['7.2', '7.3']
+        php: ['7.2', '7.3']
+        database: ['pgsql', 'mysql', 'sqlite']
 
     runs-on: ubuntu-latest
     steps:
@@ -18,9 +20,29 @@ jobs:
     - name: Set up PHP
       uses: shivammathur/setup-php@master
       with:
-        php-version: ${{ matrix.php-versions }}
+        php-version: ${{ matrix.php }}
         coverage: pcov
         extension-csv: mbstring
+
+    - name: Set up database
+      run: |
+        sudo apt update
+        if [[ "${{ matrix.database }}" == "pgsql" ]]; then
+            sudo apt-get install -y postgresql postgresql-client ;
+            psql --version ;
+            sudo -u postgres psql -c "SELECT set_config('log_statement', 'all', false);" -U postgres ;
+            sudo -u postgres psql -c "CREATE USER root WITH PASSWORD 'root';" -U postgres ;
+            sudo -u postgres psql -c "CREATE DATABASE test WITH OWNER root;" -U postgres ;
+        fi
+        if [[ "${{ matrix.database }}" == "mysql" ]]; then
+            mysql --version ;
+            mysql -e "SET GLOBAL general_log = 'ON';" -uroot -proot ;
+            mysql -e "CREATE DATABASE test;" -uroot -proot ;
+        fi
+        if [[ "${{ matrix.database }}" == "sqlite" ]]; then
+            sudo apt-get install -y sqlite3 ;
+            sqlite3 --version ;
+        fi
 
     - name: Check Versions
       run: php -v && composer -V
@@ -32,4 +54,14 @@ jobs:
       run: composer install --prefer-dist --no-progress --no-suggest
 
     - name: Run test suite
-      run: vendor/bin/phpunit tests --coverage-text --whitelist src
+      run: |
+        if [[ "${{ matrix.database }}" == "pgsql" ]]; then
+            export DSN=pgsql:user=root;password=root;host=127.0.0.1;dbname=test
+        fi
+        if [[ "${{ matrix.database }}" == "mysql" ]]; then
+            export DSN=mysql:user=root;password=root;host=127.0.0.1;dbname=test
+        fi
+        if [[ "${{ matrix.database }}" == "sqlite" ]]; then
+            export DSN=sqlite::memory:
+        fi
+	    vendor/bin/phpunit tests --coverage-text --whitelist src

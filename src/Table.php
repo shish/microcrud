@@ -21,7 +21,7 @@ class Table
     public $size = 100;
     public $limit = 1000;
     public $columns = [];
-    public $order_by = "";
+    public $order_by = [];
     public $flags = [];
     public $db = null;
 
