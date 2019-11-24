@@ -56,12 +56,12 @@ jobs:
     - name: Run test suite
       run: |
         if [[ "${{ matrix.database }}" == "pgsql" ]]; then
-            export DSN=pgsql:user=root;password=root;host=127.0.0.1;dbname=test
+            export DSN="pgsql:user=root;password=root;host=127.0.0.1;dbname=test"
         fi
         if [[ "${{ matrix.database }}" == "mysql" ]]; then
-            export DSN=mysql:user=root;password=root;host=127.0.0.1;dbname=test
+            export DSN="mysql:user=root;password=root;host=127.0.0.1;dbname=test"
         fi
         if [[ "${{ matrix.database }}" == "sqlite" ]]; then
-            export DSN=sqlite::memory:
+            export DSN="sqlite::memory:"
         fi
         vendor/bin/phpunit tests --coverage-text --whitelist src
