@@ -22,7 +22,8 @@ class IPBanTable extends Table {
 			new DateColumn("added", "Added"),
 			new DateColumn("expires", "Expires"),
 		];
-		$this->order_by = ["expires", "bans.id"];
+		# MySQL / SQLite don't support "NULLS LAST" :(
+		$this->order_by = ["CASE WHEN expires IS NULL THEN 1 ELSE 0 END", "expires", "bans.id"];
 		$this->flags = [
 			"all" => ["((expires > CURRENT_TIMESTAMP) OR (expires IS NULL))", null],
 		];
