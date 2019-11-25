@@ -16,6 +16,7 @@
     "require": {
         "php": ">=7.2",
         "ext-pdo": "*",
+        "shish/ffsphp": "dev-master",
         "shish/microhtml": "dev-master"
     },
     "require-dev": {

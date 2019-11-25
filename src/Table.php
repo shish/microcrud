@@ -93,11 +93,7 @@ class Table
         $args["offset"] = $size * ($page-1);
         $args["limit"] = $size;
 
-        $stmt = $this->db->prepare($query);
-        $stmt->execute($args);
-        $rows = $stmt->fetchAll();
-
-        return $rows;
+        return $this->db->execute($query, $args)->fetchAll();
     }
 
     public function count()
@@ -111,11 +107,7 @@ class Table
 			) AS tbl2
         ";
 
-        $stmt = $this->db->prepare($query);
-        $stmt->execute($args);
-        $row = $stmt->fetch();
-
-        return $row[0];
+        return $this->db->execute($query, $args)->fetch()[0];
     }
 
     public function count_pages(): int

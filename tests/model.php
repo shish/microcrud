@@ -1,5 +1,6 @@
 <?php
 use MicroCRUD\{StringColumn,DateColumn,TextColumn,EnumColumn,Table};
+use FFSPHP\PDO;
 
 class IPBanTable extends Table {
 	function __construct(\PDO $db, $token=null) {
@@ -30,22 +31,10 @@ class IPBanTable extends Table {
 	}
 }
 
-function fixed_PDO($dsn, $attrs) {
-	$db_user=null;
-	$db_pass=null;
-	if (preg_match("/user=([^;]*)/", $dsn, $matches)) {
-		$db_user=$matches[1];
-	}
-	if (preg_match("/password=([^;]*)/", $dsn, $matches)) {
-		$db_pass=$matches[1];
-	}
-	return new PDO($dsn, $db_user, $db_pass, $attrs);
-}
-
 function create_mock_db() {
 	$e = getenv('DSN');
 	$dsn = $e ? $e : 'sqlite::memory:';
-	$db = fixed_PDO($dsn, [
+	$db = new PDO($dsn, [
 		PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 	]);
 
