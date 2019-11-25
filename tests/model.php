@@ -41,8 +41,8 @@ function create_mock_db() {
 	$dbe = explode(":", $dsn)[0];
 	$aipk = [
 		"pgsql" => "INTEGER PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY",
-		"sqlite" => "INTEGER PRIMARY KEY NOT NULL AUTOINCREMENT",
-		"mysql" => "INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT"
+		"sqlite" => "INTEGER PRIMARY KEY AUTOINCREMENT",
+		"mysql" => "INTEGER PRIMARY KEY AUTO_INCREMENT"
 	][$dbe];
 
 	$db->exec("DROP TABLE IF EXISTS users");
