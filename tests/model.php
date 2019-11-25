@@ -21,7 +21,7 @@ class IPBanTable extends Table {
 			new DateColumn("added", "Added"),
 			new DateColumn("expires", "Expires"),
 		];
-		$this->order_by = ["expires", "added"];
+		$this->order_by = ["expires", "bans.id"];
 		$this->flags = [
 			"all" => ["((expires > CURRENT_TIMESTAMP) OR (expires IS NULL))", null],
 		];
