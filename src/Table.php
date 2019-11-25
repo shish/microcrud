@@ -108,7 +108,7 @@ class Table
 			SELECT COUNT(*) FROM (
 				{$this->base_query}
 				WHERE {$filter}
-			)
+			) AS tbl2
         ";
 
         $stmt = $this->db->prepare($query);
