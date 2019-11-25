@@ -33,9 +33,14 @@ class IPBanTable extends Table {
 function create_mock_db() {
 	$e = getenv('DSN');
 	$dsn = $e ? $e : 'sqlite::memory:';
-	$db = new PDO($dsn, null, null, [
-		PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-	]);
+	try {
+		$db = new PDO($dsn, null, null, [
+			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+		]);
+	}
+	catch(PDOException $ex) {
+		die("Error connecting to $dsn: $ex");
+	}
 
 	# FFS.
 	$dbe = explode(":", $dsn)[0];
