@@ -69,11 +69,11 @@ function create_mock_db() {
 	$db->exec("CREATE TABLE bans (
 		id $aipk,
 		ip varchar(250) NOT NULL,
-		mode varchar(250) DEFAULT 'block' NOT NULL,
+		mode varchar(250) NOT NULL DEFAULT 'block',
 		reason text NOT NULL,
 		banner_id integer NOT NULL,
-		added timestamp DEFAULT CURRENT_TIMESTAMP,
-		expires timestamp
+		added timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		expires timestamp NULL DEFAULT NULL
 	);");
 
 	$n = 1;
