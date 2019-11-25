@@ -1,6 +1,8 @@
 <?php
 namespace MicroCRUD;
 
+use \FFSPHP\PDO;
+
 use MicroHTML\HTMLElement;
 use function MicroHTML\TABLE;
 use function MicroHTML\THEAD;
@@ -30,7 +32,7 @@ class Table
     public $delete_url = null;
     public $token = null;
 
-    public function __construct(\PDO $db, $token=null)
+    public function __construct(PDO $db, $token=null)
     {
         $this->db = $db;
         $this->token = $token;

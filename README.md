@@ -4,6 +4,9 @@ I kept re-implementing (badly) a bunch of code to do this stuff. Instead of
 implementing it badly a 10th time, I decided to put it into a self-contained
 library with the union of features.
 
+Currently this uses FFS-PHP's PDO, but it wouldn't be too hard to use vanilla
+PDO if anybody requested that feature.
+
 ```
 use \MicroCRUD\{Table, Column};
 
