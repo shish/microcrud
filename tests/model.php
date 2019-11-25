@@ -68,7 +68,7 @@ function create_mock_db() {
 	$db->exec("DROP TABLE IF EXISTS bans");
 	$db->exec("CREATE TABLE bans (
 		id $aipk,
-		ip inet NOT NULL,
+		ip varchar NOT NULL,
 		mode varchar DEFAULT 'block' NOT NULL,
 		reason text NOT NULL,
 		banner_id integer NOT NULL,
