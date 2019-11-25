@@ -60,7 +60,7 @@ function create_mock_db() {
 	$db->exec("DROP TABLE IF EXISTS users");
 	$db->exec("CREATE TABLE users (
 		id $aipk,
-		name text NOT NULL
+		name varchar(250) NOT NULL
 	);");
 	$db->exec("INSERT INTO users(name) VALUES ('User1');");
 	$db->exec("INSERT INTO users(name) VALUES ('User2');");
@@ -68,8 +68,8 @@ function create_mock_db() {
 	$db->exec("DROP TABLE IF EXISTS bans");
 	$db->exec("CREATE TABLE bans (
 		id $aipk,
-		ip varchar NOT NULL,
-		mode varchar DEFAULT 'block' NOT NULL,
+		ip varchar(250) NOT NULL,
+		mode varchar(250) DEFAULT 'block' NOT NULL,
 		reason text NOT NULL,
 		banner_id integer NOT NULL,
 		added timestamp DEFAULT CURRENT_TIMESTAMP,
