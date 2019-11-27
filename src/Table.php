@@ -26,6 +26,7 @@ class Table
     public $order_by = [];
     public $flags = [];
     public $db = null;
+    public $css = [];
 
     public $create_url = null;
     public $update_url = null;
@@ -121,6 +122,7 @@ class Table
     public function table(array $rows): HTMLElement
     {
         return TABLE(
+            $this->css,
             "\n",
             $this->thead(),
             "\n",

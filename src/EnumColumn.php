@@ -2,8 +2,8 @@
 namespace MicroCRUD;
 
 use MicroHTML\HTMLElement;
-use function MicroHTML\{SELECT,OPTION};
-
+use function MicroHTML\SELECT;
+use function MicroHTML\OPTION;
 
 class EnumColumn extends StringColumn
 {
