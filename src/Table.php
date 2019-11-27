@@ -41,7 +41,7 @@ class Table
     // args
     public function size()
     {
-        $size = !empty($_GET["s__size"]) ? (int)$_GET["s__size"] : $this->size;
+        $size = !empty($_GET["r__size"]) ? (int)$_GET["r__size"] : $this->size;
         if ($size > $this->limit) {
             $size = $this->limit;
         }
@@ -54,9 +54,9 @@ class Table
         $filters = ["1=1"];
         $args = [];
         foreach ($this->columns as $col) {
-            if (!empty($_GET["s_{$col->name}"])) {
+            if (!empty($_GET["r_{$col->name}"])) {
                 $filters[] = $col->filter;
-                $val = $_GET["s_{$col->name}"];
+                $val = $_GET["r_{$col->name}"];
                 if ($col->input_mod) {
                     $val = ($col->input_mod)($val);
                 }
@@ -64,7 +64,7 @@ class Table
             }
         }
         foreach ($this->flags as $flag => $filter) {
-            if (!empty($_GET["s_{$flag}"])) {
+            if (!empty($_GET["r_{$flag}"])) {
                 if ($filter[1]) {
                     $filters[] = $filter[1];
                 }
@@ -81,7 +81,7 @@ class Table
     {
         list($filter, $args) = $this->get_filter();
 
-        $page = !empty($_GET["s__page"]) ? (int)$_GET["s__page"] : 1;
+        $page = !empty($_GET["r__page"]) ? (int)$_GET["r__page"] : 1;
         $order = !empty($this->order_by) ? "ORDER BY " . join(", ", $this->order_by) : "";
         $size = $this->size();
 
