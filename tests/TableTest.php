@@ -21,21 +21,52 @@ class CRUDTableTest extends \PHPUnit\Framework\TestCase {
 	public function test_count() {
 		$t = new IPBanTable($this->db);
 		$n = $t->count();
-		$this->assertEquals(24, $n);
+		$this->assertEquals(54, $n);
 	}
 
 	public function test_size() {
 		$_GET["r__size"] = 5;
 		$t = new IPBanTable($this->db);
 		$this->assertEquals(5, count($t->query()));
-		$this->assertEquals(24, $t->count());
+		$this->assertEquals(54, $t->count());
 	}
 
 	public function test_limit() {
 		$_GET["r__size"] = 9001;
 		$t = new IPBanTable($this->db);
 		$this->assertEquals(20, count($t->query()));
-		$this->assertEquals(24, $t->count());
+		$this->assertEquals(54, $t->count());
+	}
+
+	public function test_page_start() {
+		$_GET["r_all"] = "on";
+		$_GET["r__page"] = 1;
+		$t = new IPBanTable($this->db);
+		$t->order_by = ['id'];
+		$rows = $t->query();
+		$this->assertEquals(10, count($rows));
+		$this->assertEquals("1.2.3.1", $rows[0]["ip"]);
+	}
+
+	public function test_page_offset() {
+		$_GET["r_all"] = "on";
+		$_GET["r__page"] = 2;
+		$t = new IPBanTable($this->db);
+		$t->order_by = ['id'];
+		$rows = $t->query();
+		$this->assertEquals(10, count($rows));
+		$this->assertEquals("1.2.3.11", $rows[0]["ip"]);
+	}
+
+	public function test_page_size_offset() {
+		$_GET["r_all"] = "on";
+		$_GET["r__size"] = 20;
+		$_GET["r__page"] = 3;
+		$t = new IPBanTable($this->db);
+		$t->order_by = ['id'];
+		$rows = $t->query();
+		$this->assertEquals(20, count($rows));
+		$this->assertEquals("1.2.3.41", $rows[0]["ip"]);
 	}
 
 	//class TableTest extends CRUDTableTest {
@@ -63,6 +94,9 @@ class CRUDTableTest extends \PHPUnit\Framework\TestCase {
 
 		$this->assertEquals("1=1", $q);
 		$this->assertEquals([], $a);
+
+		$rows = $t->query();
+		$this->assertEquals("1.2.3.1", $rows[0]["ip"]);
 	}
 
 	public function test_eq() {
@@ -74,31 +108,40 @@ class CRUDTableTest extends \PHPUnit\Framework\TestCase {
 
 		$this->assertEquals("1=1 AND (mode = :mode)", $q);
 		$this->assertEquals(['mode' => 'block'], $a);
+
+		$rows = $t->query();
+		$this->assertEquals("1.2.3.1", $rows[0]["ip"]);
+		$this->assertEquals("block", $rows[0]["mode"]);
 	}
 
 	public function test_like() {
 		$_GET["r_all"] = "on";
-		$_GET["r_reason"] = "reason";
+		$_GET["r_reason"] = "off";
 
 		$t = new IPBanTable($this->db);
 		list($q, $a) = $t->get_filter();
 
 		$this->assertEquals("1=1 AND (reason LIKE :reason)", $q);
-		$this->assertEquals(['reason' => '%reason%'], $a);
+		$this->assertEquals(['reason' => '%off%'], $a);
+
+		$rows = $t->query();
+		$this->assertEquals("1.2.3.19", $rows[0]["ip"]);
+		$this->assertEquals("offtopic", $rows[0]["reason"]);
 	}
 
 	public function test_foreign() {
 		$_GET["r_all"] = "on";
-		$_GET["r_banner"] = "User2";
+		$_GET["r_banner"] = "Alice";
 
 		$t = new IPBanTable($this->db);
 		list($q, $a) = $t->get_filter();
 
 		$this->assertEquals("1=1 AND (banner = :banner)", $q);
-		$this->assertEquals(['banner' => 'User2'], $a);
+		$this->assertEquals(['banner' => 'Alice'], $a);
 
 		$rows = $t->query();
-		$this->assertEquals("1.2.3.4", $rows[0]["ip"]);
+		$this->assertEquals("1.2.3.1", $rows[0]["ip"]);
+		$this->assertEquals("Alice", $rows[0]["banner"]);
 	}
 
 	// other html

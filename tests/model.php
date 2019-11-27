@@ -18,7 +18,7 @@ class IPBanTable extends Table {
 		$this->limit = 20;
 		$this->columns = [
 			new StringColumn("ip", "IP"),
-			new EnumColumn("mode", "Mode", ["Block"=>"block", "Firewall"=>"firewall"]),
+			new EnumColumn("mode", "Mode", ["Block"=>"block", "Firewall"=>"firewall", "Read-only", "readonly"]),
 			new TextColumn("reason", "Reason"),
 			new StringColumn("banner", "Banner"),
 			new DateColumn("added", "Added"),
@@ -54,8 +54,10 @@ function create_mock_db() {
 		id $aipk,
 		name varchar(250) NOT NULL
 	);");
-	$db->exec("INSERT INTO users(name) VALUES ('User1');");
-	$db->exec("INSERT INTO users(name) VALUES ('User2');");
+	$db->exec("INSERT INTO users(name) VALUES ('Alice');");
+	$db->exec("INSERT INTO users(name) VALUES ('Bob');");
+	$db->exec("INSERT INTO users(name) VALUES ('Charlie');");
+	$db->exec("INSERT INTO users(name) VALUES ('Davina');");
 
 	$db->exec("DROP TABLE IF EXISTS bans");
 	$db->exec("CREATE TABLE bans (
@@ -69,9 +71,9 @@ function create_mock_db() {
 	);");
 
 	$n = 1;
-	foreach(['block', 'firewall'] as $mode) {
+	foreach(['block', 'firewall', 'readonly'] as $mode) {
 		foreach(['leech', 'spam', 'offtopic'] as $reason) {
-			foreach([1, 2] as $banner_id) {
+			foreach([1, 2, 3] as $banner_id) {
 				foreach(['NULL', "'2000-01-01'", "'2030-01-01'"] as $expires) {
 					$q = "
 						INSERT INTO bans(ip, mode, reason, banner_id, expires)
