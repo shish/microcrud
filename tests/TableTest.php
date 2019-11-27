@@ -77,9 +77,9 @@ class CRUDTableTest extends \PHPUnit\Framework\TestCase {
 		$this->assertInstanceOf("\MicroHTML\HTMLElement", $html);
 	}
 
-	public function test_css() {
+	public function test_table_attrs() {
 		$t = new IPBanTable($this->db);
-		$t->css = ["class" => "zebra table"];
+		$t->table_attrs = ["class" => "zebra table"];
 		$rows = $t->query();
 		$html = $t->table($rows);
 		$this->assertStringContainsString("table class='zebra table'", (string)$html);
