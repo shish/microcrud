@@ -25,14 +25,14 @@ class CRUDTableTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function test_size() {
-		$_GET["s__size"] = 5;
+		$_GET["r__size"] = 5;
 		$t = new IPBanTable($this->db);
 		$this->assertEquals(5, count($t->query()));
 		$this->assertEquals(24, $t->count());
 	}
 
 	public function test_limit() {
-		$_GET["s__size"] = 9001;
+		$_GET["r__size"] = 9001;
 		$t = new IPBanTable($this->db);
 		$this->assertEquals(20, count($t->query()));
 		$this->assertEquals(24, $t->count());
@@ -56,7 +56,7 @@ class CRUDTableTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function test_flag() {
-		$_GET["s_all"] = "on";
+		$_GET["r_all"] = "on";
 
 		$t = new IPBanTable($this->db);
 		list($q, $a) = $t->get_filter();
@@ -66,8 +66,8 @@ class CRUDTableTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function test_eq() {
-		$_GET["s_all"] = "on";
-		$_GET["s_mode"] = "block";
+		$_GET["r_all"] = "on";
+		$_GET["r_mode"] = "block";
 
 		$t = new IPBanTable($this->db);
 		list($q, $a) = $t->get_filter();
@@ -77,8 +77,8 @@ class CRUDTableTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function test_like() {
-		$_GET["s_all"] = "on";
-		$_GET["s_reason"] = "reason";
+		$_GET["r_all"] = "on";
+		$_GET["r_reason"] = "reason";
 
 		$t = new IPBanTable($this->db);
 		list($q, $a) = $t->get_filter();
@@ -88,14 +88,17 @@ class CRUDTableTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function test_foreign() {
-		$_GET["s_all"] = "on";
-		$_GET["s_banner"] = "User1";
+		$_GET["r_all"] = "on";
+		$_GET["r_banner"] = "User2";
 
 		$t = new IPBanTable($this->db);
 		list($q, $a) = $t->get_filter();
 
 		$this->assertEquals("1=1 AND (banner = :banner)", $q);
-		$this->assertEquals(['banner' => 'User1'], $a);
+		$this->assertEquals(['banner' => 'User2'], $a);
+
+		$rows = $t->query();
+		$this->assertEquals("1.2.3.4", $rows[0]["ip"]);
 	}
 
 	// other html
