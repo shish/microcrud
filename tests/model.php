@@ -1,5 +1,5 @@
 <?php
-use MicroCRUD\{StringColumn,DateColumn,TextColumn,EnumColumn,Table};
+use MicroCRUD\{InetColumn,StringColumn,DateColumn,TextColumn,EnumColumn,Table};
 use FFSPHP\PDO;
 
 class IPBanTable extends Table {
@@ -17,7 +17,7 @@ class IPBanTable extends Table {
 		$this->size = 10;
 		$this->limit = 20;
 		$this->columns = [
-			new StringColumn("ip", "IP"),
+			new InetColumn("ip", "IP"),
 			new EnumColumn("mode", "Mode", ["Block"=>"block", "Firewall"=>"firewall", "Read-only", "readonly"]),
 			new TextColumn("reason", "Reason"),
 			new StringColumn("banner", "Banner"),
