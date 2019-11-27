@@ -135,7 +135,7 @@ class Table
 
     public function thead(): HTMLElement
     {
-        $thead = THEAD();
+        $thead = THEAD(["id"=>"read"]);
 
         $tr = TR();
         foreach ($this->columns as $col) {
@@ -165,7 +165,7 @@ class Table
 
     public function tbody(array $rows): HTMLElement
     {
-        $tbody = TBODY();
+        $tbody = TBODY(["id"=>"update"]);
         foreach ($rows as $row) {
             $tr = TR();
             $tbody->appendChild($tr);
@@ -186,7 +186,7 @@ class Table
 
     public function tfoot(): HTMLElement
     {
-        $tfoot = TFOOT();
+        $tfoot = TFOOT(["id"=>"create"]);
         if ($this->create_url) {
             $tr = TR();
             $tfoot->appendChild(FORM(["method"=>"POST", 'action'=>$this->create_url], $tr));
