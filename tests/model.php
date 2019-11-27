@@ -11,7 +11,7 @@ class IPBanTable extends Table {
 			SELECT * FROM (
 				SELECT bans.*, users.name AS banner
 				FROM bans JOIN users ON banner_id=users.id
-			)
+			) AS tbl1
 		";
 
 		$this->size = 10;
