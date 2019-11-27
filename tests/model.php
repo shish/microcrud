@@ -8,8 +8,10 @@ class IPBanTable extends Table {
 
 		$this->table = "bans";
 		$this->base_query = "
-			SELECT bans.*, users.name AS banner
-			FROM bans JOIN users ON banner_id=users.id
+			SELECT * FROM (
+				SELECT bans.*, users.name AS banner
+				FROM bans JOIN users ON banner_id=users.id
+			)
 		";
 
 		$this->size = 10;
@@ -23,7 +25,7 @@ class IPBanTable extends Table {
 			new DateColumn("expires", "Expires"),
 		];
 		# MySQL / SQLite don't support "NULLS LAST" :(
-		$this->order_by = ["CASE WHEN expires IS NULL THEN 0 ELSE 1 END", "expires", "bans.id"];
+		$this->order_by = ["CASE WHEN expires IS NULL THEN 0 ELSE 1 END", "expires", "id"];
 		$this->flags = [
 			"all" => ["((expires > CURRENT_TIMESTAMP) OR (expires IS NULL))", null],
 		];
