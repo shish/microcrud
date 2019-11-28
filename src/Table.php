@@ -41,8 +41,13 @@ class Table
     }
 
     // args
-    public function size()
+    public function size(): ?int
     {
+        // admin can set $table->size = null if they want all results
+        if (is_null($this->size)) {
+            return null;
+        }
+
         $size = !empty($this->inputs["r__size"]) ? (int)$this->inputs["r__size"] : $this->size;
         if ($size > $this->limit) {
             $size = $this->limit;
@@ -51,7 +56,7 @@ class Table
     }
 
     // database
-    public function get_filter()
+    public function get_filter(): array
     {
         $filters = ["1=1"];
         $args = [];
@@ -79,28 +84,31 @@ class Table
         return [implode(" AND ", $filters), $args];
     }
 
-    public function query()
+    public function query(): array
     {
         list($filter, $args) = $this->get_filter();
 
         $page = !empty($this->inputs["r__page"]) ? (int)$this->inputs["r__page"] : 1;
         $order = !empty($this->order_by) ? "ORDER BY " . join(", ", $this->order_by) : "";
         $size = $this->size();
+        $pager = "";
+        if (!is_null($size)) {
+            $pager = "LIMIT :limit OFFSET :offset";
+            $args["offset"] = $size * ($page-1);
+            $args["limit"] = $size;
+        }
 
         $query = "
 			{$this->base_query}
 			WHERE {$filter}
 			$order
-			LIMIT :limit
-			OFFSET :offset
+			$pager
         ";
-        $args["offset"] = $size * ($page-1);
-        $args["limit"] = $size;
 
         return $this->db->execute($query, $args)->fetchAll();
     }
 
-    public function count()
+    public function count(): int
     {
         list($filter, $args) = $this->get_filter();
 

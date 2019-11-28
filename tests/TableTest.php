@@ -35,6 +35,17 @@ class CRUDTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(54, $t->count());
     }
 
+    /**
+     * When the programmer sets size=null, we should return all
+     * data instead of paginating.
+     */
+    public function test_size_null()
+    {
+        $t = new IPBanTable($this->db);
+        $t->size = null;
+        $this->assertEquals($t->count(), count($t->query()));
+    }
+
     public function test_limit()
     {
         $t = new IPBanTable($this->db);
