@@ -31,6 +31,7 @@ class Column
     public function read_input($inputs)
     {
         return INPUT([
+            "type"=>"text",
             "name"=>"r_{$this->name}",
             "placeholder"=>$this->title,
             "value"=>@$inputs["r_{$this->name}"]
@@ -40,6 +41,7 @@ class Column
     public function create_input($inputs)
     {
         return INPUT([
+            "type"=>"text",
             "name"=>"c_{$this->name}",
             "placeholder"=>$this->title,
             "value"=>@$inputs["c_{$this->name}"]
