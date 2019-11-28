@@ -155,9 +155,9 @@ class Table
 
         $tr = TR();
         foreach ($this->columns as $col) {
-            $tr->appendChild(TH($col->read_input($this->inputs)));
+            $tr->appendChild(TD($col->read_input($this->inputs)));
         }
-        $tr->appendChild(TH(
+        $tr->appendChild(TD(
             INPUT(["type"=>"hidden", "name"=>"r__size", "value"=>@$this->inputs["r__size"]]),
             INPUT(["type"=>"hidden", "name"=>"r__page", "value"=>@$this->inputs["r__page"]]),
             INPUT(["type"=>"submit", "value"=>"Search"])
@@ -200,9 +200,9 @@ class Table
             $tr = TR();
             $tfoot->appendChild(FORM(["method"=>"POST", 'action'=>$this->create_url], $tr));
             foreach ($this->columns as $col) {
-                $tr->appendChild(TH($col->create_input($this->inputs)));
+                $tr->appendChild(TD($col->create_input($this->inputs)));
             }
-            $tr->appendChild(TH(
+            $tr->appendChild(TD(
                 INPUT(["type"=>"hidden", "name"=>"auth_token", "value"=>$this->token]),
                 INPUT(["type"=>"submit", "value"=>"Add"])
             ));
