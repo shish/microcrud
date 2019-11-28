@@ -19,13 +19,13 @@ class EnumColumn extends StringColumn
         $this->options = $options;
     }
 
-    public function read_input()
+    public function read_input($inputs)
     {
         $s = SELECT(["name"=>"r_{$this->name}"]);
         $s->appendChild(OPTION(["value"=>""], '-'));
         foreach ($this->options as $k => $v) {
             $attrs = ["value"=>$v];
-            if ($v == @$_GET["r_{$this->name}"]) {
+            if ($v == @$inputs["r_{$this->name}"]) {
                 $attrs["selected"] = true;
             }
             $s->appendChild(OPTION($attrs, $k));
@@ -33,11 +33,15 @@ class EnumColumn extends StringColumn
         return $s;
     }
 
-    public function create_input()
+    public function create_input($inputs)
     {
         $s = SELECT(["name"=>"c_{$this->name}"]);
         foreach ($this->options as $k => $v) {
-            $s->appendChild(OPTION(["value"=>$v], $k));
+            $attrs = ["value"=>$v];
+            if ($v == @$inputs["c_{$this->name}"]) {
+                $attrs["selected"] = true;
+            }
+            $s->appendChild(OPTION($attrs, $k));
         }
         return $s;
     }

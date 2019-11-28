@@ -32,17 +32,18 @@ class Table
     public $update_url = null;
     public $delete_url = null;
     public $token = null;
+    
+    public $inputs = [];
 
-    public function __construct(PDO $db, $token=null)
+    public function __construct(PDO $db)
     {
         $this->db = $db;
-        $this->token = $token;
     }
 
     // args
     public function size()
     {
-        $size = !empty($_GET["r__size"]) ? (int)$_GET["r__size"] : $this->size;
+        $size = !empty($this->inputs["r__size"]) ? (int)$this->inputs["r__size"] : $this->size;
         if ($size > $this->limit) {
             $size = $this->limit;
         }
@@ -55,9 +56,9 @@ class Table
         $filters = ["1=1"];
         $args = [];
         foreach ($this->columns as $col) {
-            if (!empty($_GET["r_{$col->name}"])) {
+            if (!empty($this->inputs["r_{$col->name}"])) {
                 $filters[] = $col->filter;
-                $val = $_GET["r_{$col->name}"];
+                $val = $this->inputs["r_{$col->name}"];
                 if ($col->input_mod) {
                     $val = ($col->input_mod)($val);
                 }
@@ -65,7 +66,7 @@ class Table
             }
         }
         foreach ($this->flags as $flag => $filter) {
-            if (!empty($_GET["r_{$flag}"])) {
+            if (!empty($this->inputs["r_{$flag}"])) {
                 if ($filter[1]) {
                     $filters[] = $filter[1];
                 }
@@ -82,7 +83,7 @@ class Table
     {
         list($filter, $args) = $this->get_filter();
 
-        $page = !empty($_GET["r__page"]) ? (int)$_GET["r__page"] : 1;
+        $page = !empty($this->inputs["r__page"]) ? (int)$this->inputs["r__page"] : 1;
         $order = !empty($this->order_by) ? "ORDER BY " . join(", ", $this->order_by) : "";
         $size = $this->size();
 
@@ -146,16 +147,16 @@ class Table
 
         $tr = TR();
         foreach ($this->columns as $col) {
-            $tr->appendChild(TH($col->read_input()));
+            $tr->appendChild(TH($col->read_input($this->inputs)));
         }
         $tr->appendChild(TH(
-            INPUT(["type"=>"hidden", "name"=>"r__size", "value"=>@$_GET["r__size"]]),
-            INPUT(["type"=>"hidden", "name"=>"r__page", "value"=>@$_GET["r__page"]]),
+            INPUT(["type"=>"hidden", "name"=>"r__size", "value"=>@$this->inputs["r__size"]]),
+            INPUT(["type"=>"hidden", "name"=>"r__page", "value"=>@$this->inputs["r__page"]]),
             INPUT(["type"=>"submit", "value"=>"Search"])
         ));
         foreach ($this->flags as $flag => $_vals) {
             $tr->appendChild(
-                INPUT(["type"=>"hidden", "name"=>"r_{$flag}", "value"=>@$_GET["r_{$flag}"]])
+                INPUT(["type"=>"hidden", "name"=>"r_{$flag}", "value"=>@$this->inputs["r_{$flag}"]])
             );
         }
         $thead->appendChild(FORM($tr));
@@ -191,7 +192,7 @@ class Table
             $tr = TR();
             $tfoot->appendChild(FORM(["method"=>"POST", 'action'=>$this->create_url], $tr));
             foreach ($this->columns as $col) {
-                $tr->appendChild(TH($col->create_input()));
+                $tr->appendChild(TH($col->create_input($this->inputs)));
             }
             $tr->appendChild(TH(
                 INPUT(["type"=>"hidden", "name"=>"auth_token", "value"=>$this->token]),
@@ -204,9 +205,9 @@ class Table
     public function modify_url(array $changes): string
     {
         foreach ($changes as $k => $v) {
-            $_GET[$k] = $v;
+            $this->inputs[$k] = $v;
         }
-        return http_build_query($_GET);
+        return http_build_query($this->inputs);
     }
 
     public function page_url(int $page): string
