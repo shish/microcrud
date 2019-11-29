@@ -26,6 +26,7 @@ class Table
     public $order_by = [];
     public $flags = [];
     public $db = null;
+    public $primary_key = "id";
     public $table_attrs = [];
 
     public $create_url = null;
@@ -185,7 +186,7 @@ class Table
                 $tr->appendChild(TD(FORM(
                     ["method"=>"POST", "action"=>$this->delete_url],
                     INPUT(["type"=>"hidden", "name"=>"auth_token", "value"=>$this->token]),
-                    INPUT(["type"=>"hidden", "name"=>"d_id", "value"=>$row["id"]]),
+                    INPUT(["type"=>"hidden", "name"=>"d_{$this->primary_key}", "value"=>$row[$this->primary_key]]),
                     INPUT(["type"=>"submit", "value"=>"Delete"])
                 )));
             }
