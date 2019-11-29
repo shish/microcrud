@@ -12,8 +12,8 @@ class DateColumn extends Column
         );
     }
 
-    public function display($data)
+    public function display(array $row)
     {
-        return substr($data, 0, 10);
+        return substr($row[$this->name], 0, 10);
     }
 }

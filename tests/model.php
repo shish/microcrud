@@ -1,11 +1,30 @@
 <?php
+use function MicroHTML\A;
 use MicroCRUD\InetColumn;
 use MicroCRUD\StringColumn;
 use MicroCRUD\DateColumn;
 use MicroCRUD\TextColumn;
 use MicroCRUD\EnumColumn;
+use MicroCRUD\Column;
 use MicroCRUD\Table;
 use FFSPHP\PDO;
+
+class CustomColumn extends Column
+{
+    public function __construct()
+    {
+        parent::__construct("user_or_ip", "Author", "((ip=:user_or_ip) OR (banner=:user_or_ip))");
+    }
+
+    public function display($row)
+    {
+        if ($row['ip'] == "1.2.3.4") {
+            return A(["href"=>"/users/edwin"], "Edwin");
+        } else {
+            return $row['ip'];
+        }
+    }
+}
 
 class IPBanTable extends Table
 {
@@ -30,6 +49,7 @@ class IPBanTable extends Table
             new StringColumn("banner", "Banner"),
             new DateColumn("added", "Added"),
             new DateColumn("expires", "Expires"),
+            new CustomColumn(),
         ];
         # MySQL / SQLite don't support "NULLS LAST" :(
         $this->order_by = ["CASE WHEN expires IS NULL THEN 0 ELSE 1 END", "expires", "id"];

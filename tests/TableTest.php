@@ -177,21 +177,35 @@ class CRUDTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("offtopic", $rows[0]["reason"]);
     }
 
-    public function test_foreign()
-    {
-        $t = new IPBanTable($this->db);
-        $t->inputs = ["r_all"=>"on", "r_banner"=>"Alice"];
-        list($q, $a) = $t->get_filter();
+	public function test_foreign()
+	{
+		$t = new IPBanTable($this->db);
+		$t->inputs = ["r_all"=>"on", "r_banner"=>"Alice"];
+		list($q, $a) = $t->get_filter();
 
-        $this->assertEquals("1=1 AND (banner = :banner)", $q);
-        $this->assertEquals(['banner' => 'Alice'], $a);
+		$this->assertEquals("1=1 AND (banner = :banner)", $q);
+		$this->assertEquals(['banner' => 'Alice'], $a);
 
-        $rows = $t->query();
-        $this->assertEquals("1.2.3.1", $rows[0]["ip"]);
-        $this->assertEquals("Alice", $rows[0]["banner"]);
-    }
+		$rows = $t->query();
+		$this->assertEquals("1.2.3.1", $rows[0]["ip"]);
+		$this->assertEquals("Alice", $rows[0]["banner"]);
+	}
 
-    // other html
+	public function test_custom()
+	{
+		$t = new IPBanTable($this->db);
+		$t->inputs = ["r_all"=>"on", "r_user_or_ip"=>"Alice"];
+		list($q, $a) = $t->get_filter();
+
+		$this->assertEquals("1=1 AND ((ip=:user_or_ip) OR (banner=:user_or_ip))", $q);
+		$this->assertEquals(['user_or_ip' => 'Alice'], $a);
+
+		$rows = $t->query();
+		$this->assertEquals("1.2.3.1", $rows[0]["ip"]);
+		$this->assertEquals("Alice", $rows[0]["banner"]);
+	}
+
+	// other html
     public function test_paginator()
     {
         $t = new IPBanTable($this->db);

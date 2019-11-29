@@ -199,7 +199,7 @@ class Table
             $tr = TR();
             $tbody->appendChild($tr);
             foreach ($this->columns as $col) {
-                $tr->appendChild(TD($col->display($row[$col->name])));
+                $tr->appendChild(TD($col->display($row)));
             }
             if ($this->delete_url) {
                 $tr->appendChild(TD(FORM(

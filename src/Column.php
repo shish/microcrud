@@ -16,19 +16,19 @@ class Column
     // "bob" -> "%bob%"
     public $input_mod;
 
-    public function __construct($name, $title, $filter)
+    public function __construct(string $name, string $title, string $filter)
     {
         $this->name = $name;
         $this->title = $title;
         $this->filter = $filter;
     }
 
-    public function display($data)
+    public function display(array $row)
     {
-        return $data;
+        return $row[$this->name];
     }
 
-    public function read_input($inputs)
+    public function read_input(array $inputs)
     {
         return INPUT([
             "type"=>"text",
@@ -38,7 +38,7 @@ class Column
         ]);
     }
 
-    public function create_input($inputs)
+    public function create_input(array $inputs)
     {
         return INPUT([
             "type"=>"text",
