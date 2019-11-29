@@ -84,6 +84,30 @@ class CRUDTableTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("1.2.3.41", $rows[0]["ip"]);
     }
 
+    public function test_sort()
+    {
+        $t = new IPBanTable($this->db);
+        $t->inputs = ["r_all"=>"on", "r__sort"=>"banner"];
+        $rows = $t->query();
+        $this->assertEquals("Alice", $rows[0]["banner"]);
+    }
+
+    public function test_reverse_sort()
+    {
+        $t = new IPBanTable($this->db);
+        $t->inputs = ["r_all"=>"on", "r__sort"=>"-banner"];
+        $rows = $t->query();
+        $this->assertEquals("Charlie", $rows[0]["banner"]);
+    }
+
+    public function test_invalid_sort()
+    {
+        $t = new IPBanTable($this->db);
+        $t->inputs = ["r_all"=>"on", "r__sort"=>"asdfasdf"];
+        $rows = $t->query();
+        $this->assertEquals("Alice", $rows[0]["banner"]);
+    }
+
     //class TableTest extends CRUDTableTest {
     public function test_table()
     {

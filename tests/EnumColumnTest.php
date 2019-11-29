@@ -18,9 +18,15 @@ class EnumColumnTest extends \PHPUnit\Framework\TestCase
         $this->assertStringNotContainsString("selected", $c->read_input([]));
     }
 
-    public function test_one_selection()
+    public function test_input_selection()
     {
         $c = new EnumColumn("mode", "Mode", ["a"=>"1", "b"=>"2"]);
         $this->assertStringContainsString("selected", $c->read_input(["r_mode" => "1"]));
+    }
+
+    public function test_create_selection()
+    {
+        $c = new EnumColumn("mode", "Mode", ["a"=>"1", "b"=>"2"]);
+        $this->assertStringContainsString("selected", $c->create_input(["c_mode" => "1"]));
     }
 }

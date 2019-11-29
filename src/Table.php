@@ -90,7 +90,24 @@ class Table
         list($filter, $args) = $this->get_filter();
 
         $page = !empty($this->inputs["r__page"]) ? (int)$this->inputs["r__page"] : 1;
-        $order = !empty($this->order_by) ? "ORDER BY " . join(", ", $this->order_by) : "";
+        $order_by = "";
+        if (!empty($this->inputs["r__sort"])) {
+            $asc = true;
+            $suggested_order = $this->inputs["r__sort"];
+            if ($suggested_order[0] == "-") {
+                $asc = false;
+                $suggested_order = substr($suggested_order, 1);
+            }
+            foreach ($this->columns as $col) {
+                if ($col->name == $suggested_order) {
+                    $order_by = "ORDER BY " . $col->name . ($asc ? " ASC" : " DESC");
+                    break;
+                }
+            }
+        }
+        if (empty($order_by) && !empty($this->order_by)) {
+            $order_by = "ORDER BY " . join(", ", $this->order_by);
+        }
         $size = $this->size();
         $pager = "";
         if (!is_null($size)) {
@@ -102,7 +119,7 @@ class Table
         $query = "
 			{$this->base_query}
 			WHERE {$filter}
-			$order
+			$order_by
 			$pager
         ";
 
@@ -149,7 +166,9 @@ class Table
 
         $tr = TR();
         foreach ($this->columns as $col) {
-            $tr->appendChild(TH($col->title));
+            $sort_name = (@$this->inputs["r__sort"] == $col->name) ? "-{$col->name}" : $col->name;
+            $sort = "?" . $this->modify_url(["r__sort"=>$sort_name]);
+            $tr->appendChild(TH(A(["href"=>$sort], $col->title)));
         }
         $tr->appendChild(TH("Action"));
         $thead->appendChild($tr);
@@ -213,10 +232,11 @@ class Table
 
     public function modify_url(array $changes): string
     {
+        $args_copy = $this->inputs;
         foreach ($changes as $k => $v) {
-            $this->inputs[$k] = $v;
+            $args_copy[$k] = $v;
         }
-        return http_build_query($this->inputs);
+        return http_build_query($args_copy);
     }
 
     public function page_url(int $page): string
