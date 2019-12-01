@@ -170,7 +170,9 @@ class Table
 
     public function count_pages(): int
     {
-        return $this->count() / $this->size();
+        $p = ceil($this->count() / $this->size());
+        if($p == 0) $p = 1;
+        return $p;
     }
 
     // html generation
