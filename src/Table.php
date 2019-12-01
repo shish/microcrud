@@ -4,6 +4,7 @@ namespace MicroCRUD;
 use \FFSPHP\PDO;
 
 use MicroHTML\HTMLElement;
+use function MicroHTML\emptyHTML;
 use function MicroHTML\TABLE;
 use function MicroHTML\THEAD;
 use function MicroHTML\TBODY;
@@ -15,6 +16,8 @@ use function MicroHTML\INPUT;
 use function MicroHTML\FORM;
 use function MicroHTML\DIV;
 use function MicroHTML\A;
+use function MicroHTML\B;
+use function MicroHTML\BR;
 
 class Table
 {
@@ -272,15 +275,46 @@ class Table
     public function paginator(): HTMLElement
     {
         $min = 1;
+        $cur = (int)($this->inputs["r__page"] ?? 1);
         $max = $this->count_pages();
-        $d = DIV();
-        $d->appendChild(A(["href"=>$this->page_url($min)], "First"));
-        $d->appendChild(" | ");
-        foreach (range($min, $max+1) as $p) {
-            $d->appendChild(A(["href"=>$this->page_url($p)], "$p"));
-            $d->appendChild(" | ");
+        
+        $first_html  = $cur == $min ? "First" : A(["href"=>$this->page_url($min)], "First");
+        $prev_html   = $cur == $min ? "Prev"  : A(["href"=>$this->page_url($cur - 1)], "Prev");
+
+        $random_html = "-";
+
+        $next_html   = $cur == $max ? "Next"  : A(["href"=>$this->page_url($cur + 1)], "Next");
+        $last_html   = $cur == $max ? "Last"  : A(["href"=>$this->page_url($max)], "Last");
+
+        $start = $cur-5 > $min ? $cur-5 : $min;
+        $end = $start+10 < $max ? $start+10 : $max;
+
+        $pages = emptyHTML();
+        foreach (range($start, $end) as $i) {
+            $link = A(["href"=>$this->page_url($i)], "$i");
+            if ($i == $cur) {
+                $link = B($link);
+            }
+            $pages->appendChild($link);
+            if ($i < $end) {
+                $pages->appendChild(" | ");
+            }
         }
-        $d->appendChild(A(["href"=>$this->page_url($max)], "Last"));
-        return $d;
+
+        return DIV(
+            $first_html,
+            ' | ',
+            $prev_html,
+            ' | ',
+            $random_html,
+            ' | ',
+            $next_html,
+            ' | ',
+            $last_html,
+            BR(),
+            "<< ",
+            $pages,
+            " >>"
+        );
     }
 }
