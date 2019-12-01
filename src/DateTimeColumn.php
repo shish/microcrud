@@ -29,7 +29,7 @@ class DateTimeColumn extends Column
                 "type"=>"datetime-local",
                 "name"=>"r_{$this->name}[]",
                 "value"=>@$inputs["r_{$this->name}"][1]
-            ]),
+            ])
         );
     }
 
