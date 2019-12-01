@@ -3,6 +3,7 @@ use function MicroHTML\A;
 use MicroCRUD\InetColumn;
 use MicroCRUD\StringColumn;
 use MicroCRUD\DateColumn;
+use MicroCRUD\DateTimeColumn;
 use MicroCRUD\TextColumn;
 use MicroCRUD\EnumColumn;
 use MicroCRUD\Column;
@@ -48,7 +49,7 @@ class IPBanTable extends Table
             new TextColumn("reason", "Reason"),
             new StringColumn("banner", "Banner"),
             new DateColumn("added", "Added"),
-            new DateColumn("expires", "Expires"),
+            new DateTimeColumn("expires", "Expires"),
             new CustomColumn(),
         ];
         # MySQL / SQLite don't support "NULLS LAST" :(
