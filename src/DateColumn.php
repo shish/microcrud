@@ -39,7 +39,7 @@ class DateColumn extends Column
                 "type"=>"date",
                 "name"=>"r_{$this->name}[]",
                 "value"=>@$inputs["r_{$this->name}"][1]
-            ]),
+            ])
         );
     }
 
