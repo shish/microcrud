@@ -59,16 +59,34 @@ class Table
     // database
     public function get_filter(): array
     {
-        $filters = ["1=1"];
+        $filters = [];
         $args = [];
         foreach ($this->columns as $col) {
-            if (!empty($this->inputs["r_{$col->name}"])) {
+            $val = @$this->inputs["r_{$col->name}"];
+            // convert an array of empty strings into an empty value
+            if (is_array($val)) {
+                $all_empty = true;
+                foreach ($val as $v) {
+                    if ($v) {
+                        $all_empty = false;
+                    }
+                }
+                if ($all_empty) {
+                    $val = null;
+                }
+            }
+            if (!empty($val)) {
                 $filters[] = $col->filter;
-                $val = $this->inputs["r_{$col->name}"];
                 if ($col->input_mod) {
                     $val = ($col->input_mod)($val);
                 }
-                $args[$col->name] = $val;
+                if (!is_array($val)) {
+                    $args[$col->name] = $val;
+                } else { // array
+                    foreach ($val as $k => $v) {
+                        $args["{$col->name}_$k"] = $v;
+                    }
+                }
             }
         }
         foreach ($this->flags as $flag => $filter) {
@@ -82,14 +100,18 @@ class Table
                 }
             }
         }
+        if (empty($filters)) {
+            $filters[] = "(1=1)";
+        }
         return [implode(" AND ", $filters), $args];
     }
 
     public function query(): array
     {
+        // WHERE
         list($filter, $args) = $this->get_filter();
 
-        $page = !empty($this->inputs["r__page"]) ? (int)$this->inputs["r__page"] : 1;
+        // ORDER BY
         $order_by = "";
         if (!empty($this->inputs["r__sort"])) {
             $asc = true;
@@ -108,6 +130,9 @@ class Table
         if (empty($order_by) && !empty($this->order_by)) {
             $order_by = "ORDER BY " . join(", ", $this->order_by);
         }
+
+        // LIMIT / OFFSET
+        $page = !empty($this->inputs["r__page"]) ? (int)$this->inputs["r__page"] : 1;
         $size = $this->size();
         $pager = "";
         if (!is_null($size)) {

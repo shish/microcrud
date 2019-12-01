@@ -103,13 +103,15 @@ function create_mock_db()
     foreach (['block', 'firewall', 'readonly'] as $mode) {
         foreach (['leech', 'spam', 'offtopic'] as $reason) {
             foreach ([1, 2, 3] as $banner_id) {
-                foreach (['NULL', "'2000-01-01'", "'2030-01-01'"] as $expires) {
-                    $q = "
-						INSERT INTO bans(ip, mode, reason, banner_id, expires)
-						VALUES ('1.2.3.$n', '$mode', '$reason', $banner_id, $expires);
-					";
-                    $db->exec($q);
-                    $n++;
+                foreach (["'1980-01-01'", "'1990-01-01'", "'2000-01-01'"] as $added) {
+                    foreach (['NULL', "'2010-01-01'", "'2030-01-01'"] as $expires) {
+                        $q = "
+							INSERT INTO bans(ip, mode, reason, banner_id, added, expires)
+							VALUES ('1.2.3.$n', '$mode', '$reason', $banner_id, $added, $expires);
+						";
+                        $db->exec($q);
+                        $n++;
+                    }
                 }
             }
         }
