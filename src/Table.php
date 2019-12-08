@@ -209,7 +209,7 @@ class Table
         }
         $tr->appendChild(TD(
             INPUT(["type"=>"hidden", "name"=>"r__size", "value"=>@$this->inputs["r__size"]]),
-            INPUT(["type"=>"hidden", "name"=>"r__page", "value"=>@$this->inputs["r__page"]]),
+            INPUT(["type"=>"hidden", "name"=>"r__page", "value"=>1]),
             INPUT(["type"=>"submit", "value"=>"Search"])
         ));
         foreach ($this->flags as $flag => $_vals) {
