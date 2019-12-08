@@ -45,7 +45,7 @@ class DateTimeColumn extends Column
 
     public function display(array $row)
     {
-        return $row[$this->name];
+        return substr($row[$this->name], 0, 19);
     }
 
     public function create_input(array $inputs)
