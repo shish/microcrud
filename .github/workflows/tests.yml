@@ -9,7 +9,7 @@ jobs:
       max-parallel: 3
       fail-fast: false
       matrix:
-        php: ['7.2', '7.3']
+        php: ['7.2', '7.3', '7.4']
         database: ['pgsql', 'mysql', 'sqlite']
 
     runs-on: ubuntu-latest
@@ -22,7 +22,7 @@ jobs:
       with:
         php-version: ${{ matrix.php }}
         coverage: pcov
-        extension-csv: mbstring
+        extensions: mbstring, pdo-sqlite, pdo-pgsql, pdo-mysql
 
     - name: Set up database
       run: |
