@@ -6,7 +6,6 @@ jobs:
   build:
     name: PHP ${{ matrix.php }} / DB ${{ matrix.database }}
     strategy:
-      max-parallel: 3
       fail-fast: false
       matrix:
         php: ['7.2', '7.3', '7.4']
@@ -26,8 +25,8 @@ jobs:
 
     - name: Set up database
       run: |
-        sudo apt update
         if [[ "${{ matrix.database }}" == "pgsql" ]]; then
+            sudo apt update
             sudo apt-get install -y postgresql postgresql-client ;
             psql --version ;
             sudo -u postgres psql -c "SELECT set_config('log_statement', 'all', false);" -U postgres ;
@@ -38,10 +37,6 @@ jobs:
             mysql --version ;
             mysql -e "SET GLOBAL general_log = 'ON';" -uroot -proot ;
             mysql -e "CREATE DATABASE test;" -uroot -proot ;
-        fi
-        if [[ "${{ matrix.database }}" == "sqlite" ]]; then
-            sudo apt-get install -y sqlite3 ;
-            sqlite3 --version ;
         fi
 
     - name: Check Versions
