@@ -8,7 +8,7 @@ class TextColumn extends Column
         parent::__construct(
             $name,
             $title,
-            "($name LIKE :$name)"
+            "(LOWER($name) LIKE LOWER(:$name))"
         );
         $this->input_mod = function ($x) {
             return "%$x%";

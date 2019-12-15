@@ -15,8 +15,22 @@ class TextColumnTest extends \PHPUnit\Framework\TestCase
         $t->inputs = ["r_all" => "on", "r_reason" => "off"];
         list($q, $a) = $t->get_filter();
 
-        $this->assertEquals("(reason LIKE :reason)", $q);
+        $this->assertEquals("(LOWER(reason) LIKE LOWER(:reason))", $q);
         $this->assertEquals(['reason' => '%off%'], $a);
+
+        $rows = $t->query();
+        $this->assertEquals("1.2.3.55", $rows[0]["ip"]);
+        $this->assertEquals("offtopic", $rows[0]["reason"]);
+    }
+
+    public function test_case_insensitive()
+    {
+        $t = new IPBanTable($this->db);
+        $t->inputs = ["r_all" => "on", "r_reason" => "OFF"];
+        list($q, $a) = $t->get_filter();
+
+        $this->assertEquals("(LOWER(reason) LIKE LOWER(:reason))", $q);
+        $this->assertEquals(['reason' => '%OFF%'], $a);
 
         $rows = $t->query();
         $this->assertEquals("1.2.3.55", $rows[0]["ip"]);
