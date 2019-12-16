@@ -52,7 +52,7 @@ class DateColumn extends Column
     {
         return INPUT([
             "type"=>"date",
-            "name"=>"r_{$this->name}",
+            "name"=>"c_{$this->name}",
             "value"=>@$inputs["c_{$this->name}"]
         ]);
     }

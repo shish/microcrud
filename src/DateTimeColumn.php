@@ -52,7 +52,7 @@ class DateTimeColumn extends Column
     {
         return INPUT([
             "type"=>"datetime-local",
-            "name"=>"r_{$this->name}",
+            "name"=>"c_{$this->name}",
             "value"=>@$inputs["c_{$this->name}"]
         ]);
     }
