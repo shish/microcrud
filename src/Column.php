@@ -7,6 +7,7 @@ class Column
 {
     public $name;
     public $title;
+    public $table;
 
     public function __construct(string $name, string $title)
     {

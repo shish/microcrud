@@ -1,5 +1,6 @@
 <?php
 use function MicroHTML\A;
+use MicroCRUD\ActionColumn;
 use MicroCRUD\InetColumn;
 use MicroCRUD\StringColumn;
 use MicroCRUD\DateColumn;
@@ -17,12 +18,12 @@ class CustomColumn extends Column
         parent::__construct("user_or_ip", "Author");
     }
 
-	public function get_sql_filter(): string
-	{
-		return "((ip=:user_or_ip) OR (banner=:user_or_ip))";
-	}
+    public function get_sql_filter(): string
+    {
+        return "((ip=:user_or_ip) OR (banner=:user_or_ip))";
+    }
 
-	public function display($row)
+    public function display($row)
     {
         if ($row['ip'] == "1.2.3.4") {
             return A(["href"=>"/users/edwin"], "Edwin");
@@ -45,10 +46,9 @@ class IPBanTable extends Table
 				FROM bans JOIN users ON banner_id=users.id
 			) AS tbl1
 		";
-
         $this->size = 10;
         $this->limit = 20;
-        $this->columns = [
+        $this->set_columns([
             new InetColumn("ip", "IP"),
             new EnumColumn("mode", "Mode", ["Block"=>"block", "Firewall"=>"firewall", "Read-only", "readonly"]),
             new TextColumn("reason", "Reason"),
@@ -56,7 +56,8 @@ class IPBanTable extends Table
             new DateColumn("added", "Added"),
             new DateTimeColumn("expires", "Expires"),
             new CustomColumn(),
-        ];
+            new ActionColumn("id"),
+        ]);
         # MySQL / SQLite don't support "NULLS LAST" :(
         $this->order_by = ["CASE WHEN expires IS NULL THEN 0 ELSE 1 END", "expires", "id"];
         $this->flags = [

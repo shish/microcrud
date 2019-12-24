@@ -21,6 +21,8 @@ use function MicroHTML\BR;
 
 class Table
 {
+    public $db = null;
+
     public $table = null;
     public $base_query = null;
     public $size = 100;
@@ -28,7 +30,6 @@ class Table
     public $columns = [];
     public $order_by = [];
     public $flags = [];
-    public $db = null;
     public $primary_key = "id";
     public $table_attrs = [];
 
@@ -42,6 +43,14 @@ class Table
     public function __construct(PDO $db)
     {
         $this->db = $db;
+    }
+
+    public function set_columns(array $columns)
+    {
+        $this->columns = $columns;
+        foreach ($this->columns as $col) {
+            $col->table = $this;
+        }
     }
 
     // args
@@ -200,18 +209,12 @@ class Table
             $sort = "?" . $this->modify_url(["r__sort"=>$sort_name]);
             $tr->appendChild(TH(A(["href"=>$sort], $col->title)));
         }
-        $tr->appendChild(TH("Action"));
         $thead->appendChild($tr);
 
         $tr = TR();
         foreach ($this->columns as $col) {
             $tr->appendChild(TD($col->read_input($this->inputs)));
         }
-        $tr->appendChild(TD(
-            INPUT(["type"=>"hidden", "name"=>"r__size", "value"=>@$this->inputs["r__size"]]),
-            INPUT(["type"=>"hidden", "name"=>"r__page", "value"=>1]),
-            INPUT(["type"=>"submit", "value"=>"Search"])
-        ));
         foreach ($this->flags as $flag => $_vals) {
             $tr->appendChild(
                 INPUT(["type"=>"hidden", "name"=>"r_{$flag}", "value"=>@$this->inputs["r_{$flag}"]])
@@ -231,14 +234,6 @@ class Table
             foreach ($this->columns as $col) {
                 $tr->appendChild(TD($col->display($row)));
             }
-            if ($this->delete_url) {
-                $tr->appendChild(TD(FORM(
-                    ["method"=>"POST", "action"=>$this->delete_url],
-                    INPUT(["type"=>"hidden", "name"=>"auth_token", "value"=>$this->token]),
-                    INPUT(["type"=>"hidden", "name"=>"d_{$this->primary_key}", "value"=>$row[$this->primary_key]]),
-                    INPUT(["type"=>"submit", "value"=>"Delete"])
-                )));
-            }
         }
         return $tbody;
     }
@@ -252,10 +247,6 @@ class Table
             foreach ($this->columns as $col) {
                 $tr->appendChild(TD($col->create_input($this->inputs)));
             }
-            $tr->appendChild(TD(
-                INPUT(["type"=>"hidden", "name"=>"auth_token", "value"=>$this->token]),
-                INPUT(["type"=>"submit", "value"=>"Add"])
-            ));
         }
         return $tfoot;
     }

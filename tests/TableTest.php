@@ -3,6 +3,7 @@
 class TableQueryTest extends \PHPUnit\Framework\TestCase
 {
     public $db = null;
+    public $total = 0;
 
     public function setUp(): void
     {

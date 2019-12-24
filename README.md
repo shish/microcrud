@@ -8,16 +8,20 @@ Currently this uses FFS-PHP's PDO, but it wouldn't be too hard to use vanilla
 PDO if anybody requested that feature.
 
 ```
-use \MicroCRUD\{Table, Column};
+use \MicroCRUD\{Table, ActionColumn, TextColumn};
 
 class MyTable extends Table {
-	$columns = [
-		Column("username", "Username"),
-		Column("email", "Email Address"),
-	];
+    public function __construct($db) {
+        parent::__construct($db);
+        $this->set_columns([
+            TextColumn("username", "Username"),
+            TextColumn("email", "Email Address"),
+            ActionColumn()
+        ]);
+    }
 }
 
-$t = MyTable();
+$t = MyTable($db);
 print($t->table());
 ```
 
