@@ -79,7 +79,7 @@ class Table
                 }
             }
             if (!empty($val)) {
-                $filters[] = $col->filter;
+                $filters[] = $col->get_sql_filter();
                 $val = $col->modify_input_for_read($val);
                 if (!is_array($val)) {
                     $args[$col->name] = $val;

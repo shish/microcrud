@@ -7,13 +7,9 @@ use function MicroHTML\BR;
 
 class DateTimeColumn extends Column
 {
-    public function __construct($name, $title)
+    public function get_sql_filter(): string
     {
-        parent::__construct(
-            $name,
-            $title,
-            "($name >= :{$name}_0 AND $name < :{$name}_1)"
-        );
+        return "({$this->name} >= :{$this->name}_0 AND {$this->name} < :{$this->name}_1)";
     }
 
     public function read_input(array $inputs)

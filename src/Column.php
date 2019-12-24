@@ -8,15 +8,17 @@ class Column
     public $name;
     public $title;
 
-    // What to add to the SQL query to search this field
-    // eg (user_name LIKE :user_name)
-    public $filter;
-
-    public function __construct(string $name, string $title, string $filter)
+    public function __construct(string $name, string $title)
     {
         $this->name = $name;
         $this->title = $title;
-        $this->filter = $filter;
+    }
+
+    // What to add to the SQL query to search this field
+    // eg "(user_name LIKE :user_name)"
+    public function get_sql_filter(): string
+    {
+        return "({$this->name} = :{$this->name})";
     }
 
     public function display(array $row)

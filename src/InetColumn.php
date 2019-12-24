@@ -3,12 +3,8 @@ namespace MicroCRUD;
 
 class InetColumn extends Column
 {
-    public function __construct($name, $title)
+    public function get_sql_filter(): string
     {
-        parent::__construct(
-            $name,
-            $title,
-            "($name = :$name)"
-        );
+        return "({$this->name} = :{$this->name})";
     }
 }

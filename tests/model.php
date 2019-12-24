@@ -14,10 +14,15 @@ class CustomColumn extends Column
 {
     public function __construct()
     {
-        parent::__construct("user_or_ip", "Author", "((ip=:user_or_ip) OR (banner=:user_or_ip))");
+        parent::__construct("user_or_ip", "Author");
     }
 
-    public function display($row)
+	public function get_sql_filter(): string
+	{
+		return "((ip=:user_or_ip) OR (banner=:user_or_ip))";
+	}
+
+	public function display($row)
     {
         if ($row['ip'] == "1.2.3.4") {
             return A(["href"=>"/users/edwin"], "Edwin");
