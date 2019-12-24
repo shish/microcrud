@@ -12,10 +12,6 @@ class Column
     // eg (user_name LIKE :user_name)
     public $filter;
 
-    // A filter function applied to inputs for this column, eg
-    // "bob" -> "%bob%"
-    public $input_mod;
-
     public function __construct(string $name, string $title, string $filter)
     {
         $this->name = $name;
@@ -36,6 +32,13 @@ class Column
             "placeholder"=>$this->title,
             "value"=>@$inputs["r_{$this->name}"]
         ]);
+    }
+
+    // A filter function applied to inputs for this column, eg
+    // "bob" -> "%bob%"
+    public function modify_input_for_read($input)
+    {
+        return $input;
     }
 
     public function create_input(array $inputs)

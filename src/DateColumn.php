@@ -14,16 +14,6 @@ class DateColumn extends Column
             $title,
             "($name >= :{$name}_0 AND $name < :{$name}_1)"
         );
-        $this->input_mod = function ($var) {
-            list($s, $e) = $var;
-            if (empty($s)) {
-                $s = "0001/01/01";
-            }
-            if (empty($e)) {
-                $e = "9999/12/31";
-            }
-            return [$s, $e];
-        };
     }
 
     public function read_input(array $inputs)
@@ -41,6 +31,18 @@ class DateColumn extends Column
                 "value"=>@$inputs["r_{$this->name}"][1]
             ])
         );
+    }
+
+    public function modify_input_for_read($input)
+    {
+        list($s, $e) = $input;
+        if (empty($s)) {
+            $s = "0001/01/01";
+        }
+        if (empty($e)) {
+            $e = "9999/12/31";
+        }
+        return [$s, $e];
     }
 
     public function display(array $row)

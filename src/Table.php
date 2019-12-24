@@ -80,9 +80,7 @@ class Table
             }
             if (!empty($val)) {
                 $filters[] = $col->filter;
-                if ($col->input_mod) {
-                    $val = ($col->input_mod)($val);
-                }
+                $val = $col->modify_input_for_read($val);
                 if (!is_array($val)) {
                     $args[$col->name] = $val;
                 } else { // array

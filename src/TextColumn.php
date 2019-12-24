@@ -10,8 +10,10 @@ class TextColumn extends Column
             $title,
             "(LOWER($name) LIKE LOWER(:$name))"
         );
-        $this->input_mod = function ($x) {
-            return "%$x%";
-        };
+    }
+
+    public function modify_input_for_read($input)
+    {
+        return "%$input%";
     }
 }
