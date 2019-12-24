@@ -1,7 +1,6 @@
 <?php
 namespace MicroCRUD;
 
-use MicroHTML\HTMLElement;
 use function MicroHTML\SELECT;
 use function MicroHTML\OPTION;
 
@@ -13,8 +12,7 @@ class EnumColumn extends StringColumn
     {
         parent::__construct(
             $name,
-            $title,
-            "($name = :$name)"
+            $title
         );
         $this->options = $options;
     }

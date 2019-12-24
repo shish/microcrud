@@ -29,9 +29,9 @@ class CustomColumn extends Column
 
 class IPBanTable extends Table
 {
-    public function __construct(\PDO $db, $token=null)
+    public function __construct(PDO $db)
     {
-        parent::__construct($db, $token);
+        parent::__construct($db);
 
         $this->table = "bans";
         $this->base_query = "
