@@ -34,6 +34,15 @@ class TableQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($this->total, $t->count());
     }
 
+    public function test_count_pages()
+    {
+        // 0 results should generate one page,
+        // even though it's really 0 pages
+        $t = new IPBanTable($this->db);
+        $t->inputs = ["r_ip" => "9.9.9.9"];
+        $this->assertEquals(1, $t->count_pages());
+    }
+
     /**
      * When the programmer sets size=null, we should return all
      * data instead of paginating.
