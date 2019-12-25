@@ -28,7 +28,7 @@ class InetColumnTest extends \PHPUnit\Framework\TestCase
         $t = new IPBanTable($mock_db);
         $t->inputs = ["r_all"=>"on", "r_ip"=>"1.2.3.4"];
         list($q, $a) = $t->get_filter();
-        $this->assertEquals("(ip && inet :ip)", $q);
+        $this->assertEquals("(ip <<= inet :ip OR ip >>= inet :ip)", $q);
     }
 
     // Integration tests
@@ -40,7 +40,7 @@ class InetColumnTest extends \PHPUnit\Framework\TestCase
         $rows = $t->query();
 
         if ($this->db->getAttribute(\PDO::ATTR_DRIVER_NAME) == "pgsql") {
-            $this->assertEquals("(ip && inet :ip)", $q);
+            $this->assertEquals("(ip <<= inet :ip OR ip >>= inet :ip)", $q);
         } else {
             $this->assertEquals("(ip = :ip)", $q);
         }
@@ -57,7 +57,7 @@ class InetColumnTest extends \PHPUnit\Framework\TestCase
         $rows = $t->query();
 
         if ($this->db->getAttribute(\PDO::ATTR_DRIVER_NAME) == "pgsql") {
-            $this->assertEquals("(ip && inet :ip)", $q);
+            $this->assertEquals("(ip <<= inet :ip OR ip >>= inet :ip)", $q);
             $this->assertEquals(['ip' => '1.2.3.0/30'], $a);
             // .0/32 = 0,1,2,3 - but test data starts incrementing from 1
             $this->assertEquals("1.2.3.1", $rows[0]["ip"]);
