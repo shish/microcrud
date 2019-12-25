@@ -205,9 +205,13 @@ class Table
 
         $tr = TR();
         foreach ($this->columns as $col) {
-            $sort_name = (@$this->inputs["r__sort"] == $col->name) ? "-{$col->name}" : $col->name;
-            $sort = "?" . $this->modify_url(["r__sort"=>$sort_name]);
-            $tr->appendChild(TH(A(["href"=>$sort], $col->title)));
+            if ($col->sortable) {
+                $sort_name = (@$this->inputs["r__sort"] == $col->name) ? "-{$col->name}" : $col->name;
+                $sort = "?" . $this->modify_url(["r__sort"=>$sort_name]);
+                $tr->appendChild(TH(A(["href"=>$sort], $col->title)));
+            } else {
+                $tr->appendChild(TH($col->title));
+            }
         }
         $thead->appendChild($tr);
 

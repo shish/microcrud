@@ -10,6 +10,7 @@ class ActionColumn extends Column
     public function __construct($name)
     {
         parent::__construct($name, "Action");
+        $this->sortable = false;
     }
 
     public function read_input(array $inputs)
