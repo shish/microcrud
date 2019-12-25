@@ -8,7 +8,7 @@ class InetColumn extends Column
         $driver = $this->table->db->getAttribute(\PDO::ATTR_DRIVER_NAME);
         switch ($driver) {
             case "pgsql":
-                return "({$this->name} <<= cast(:{$this->name} as inet) OR {$this->name} >>= cast(:{$this->name} as inet))";
+                return "({$this->name} && cast(:{$this->name} as inet))";
             default:
                 return "({$this->name} = :{$this->name})";
         }
