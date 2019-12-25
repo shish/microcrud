@@ -52,7 +52,7 @@ class InetColumnTest extends \PHPUnit\Framework\TestCase
     public function test_inet_range_search()
     {
         $t = new IPBanTable($this->db);
-        $t->inputs = ["r_all"=>"on", "r_ip"=>"1.2.3.0/22"];
+        $t->inputs = ["r_all"=>"on", "r_ip"=>"1.2.3.0/30"];
         list($q, $a) = $t->get_filter();
         $rows = $t->query();
 
@@ -64,7 +64,7 @@ class InetColumnTest extends \PHPUnit\Framework\TestCase
             $this->assertEquals(3, $t->count());
         } else {
             $this->assertEquals("(ip = :ip)", $q);
-            $this->assertEquals(['ip' => '1.2.3.0/22'], $a);
+            $this->assertEquals(['ip' => '1.2.3.0/30'], $a);
             $this->assertEquals(0, $t->count());
         }
     }
