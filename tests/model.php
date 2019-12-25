@@ -50,7 +50,7 @@ class IPBanTable extends Table
         $this->limit = 20;
         $this->set_columns([
             new InetColumn("ip", "IP"),
-            new EnumColumn("mode", "Mode", ["Block"=>"block", "Firewall"=>"firewall", "Read-only", "readonly"]),
+            new EnumColumn("mode", "Mode", ["Block"=>"block", "Firewall"=>"firewall", "Read-only"=>"readonly"]),
             new TextColumn("reason", "Reason"),
             new StringColumn("banner", "Banner"),
             new DateColumn("added", "Added"),

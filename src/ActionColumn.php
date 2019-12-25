@@ -23,17 +23,16 @@ class ActionColumn extends Column
 
     public function display(array $row)
     {
-        if($this->table->delete_url) {
-			return FORM(
-				["method" => "POST", "action" => $this->table->delete_url],
-				INPUT(["type" => "hidden", "name" => "auth_token", "value" => $this->table->token]),
-				INPUT(["type" => "hidden", "name" => "d_{$this->name}", "value" => $row[$this->name]]),
-				INPUT(["type" => "submit", "value" => "Delete"])
-			);
-		}
-        else {
-			return emptyHTML();
-		}
+        if ($this->table->delete_url) {
+            return FORM(
+                ["method" => "POST", "action" => $this->table->delete_url],
+                INPUT(["type" => "hidden", "name" => "auth_token", "value" => $this->table->token]),
+                INPUT(["type" => "hidden", "name" => "d_{$this->name}", "value" => $row[$this->name]]),
+                INPUT(["type" => "submit", "value" => "Delete"])
+            );
+        } else {
+            return emptyHTML();
+        }
     }
 
     public function create_input(array $inputs)
