@@ -20,7 +20,18 @@ class CustomColumn extends Column
 
     public function get_sql_filter(): string
     {
-        return "((ip=:user_or_ip) OR (banner=:user_or_ip))";
+        return "((ip=:user_or_ip_1) OR (banner=:user_or_ip_0))";
+    }
+
+    public function modify_input_for_read($input)
+    {
+        $user = $input;
+        if (preg_match("/[0-9.]+/", $input)) {
+            $ip = $input;
+        } else {
+            $ip = null;
+        }
+        return [$user, $ip];
     }
 
     public function display($row)
