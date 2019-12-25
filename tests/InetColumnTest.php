@@ -37,11 +37,14 @@ class InetColumnTest extends \PHPUnit\Framework\TestCase
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all"=>"on", "r_ip"=>"1.2.3.4"];
         list($q, $a) = $t->get_filter();
-
-        $this->assertEquals("(ip = :ip)", $q);
-        $this->assertEquals(['ip' => '1.2.3.4'], $a);
-
         $rows = $t->query();
+
+        if ($this->db->getAttribute(\PDO::ATTR_DRIVER_NAME) == "pgsql") {
+            $this->assertEquals("(ip && inet :ip)", $q);
+        } else {
+            $this->assertEquals("(ip = :ip)", $q);
+        }
+        $this->assertEquals(['ip' => '1.2.3.4'], $a);
         $this->assertEquals("1.2.3.4", $rows[0]["ip"]);
         $this->assertEquals(1, $t->count());
     }
