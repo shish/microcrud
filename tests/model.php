@@ -94,10 +94,16 @@ function create_mock_db()
     $db->exec("INSERT INTO users(name) VALUES ('Charlie');");
     $db->exec("INSERT INTO users(name) VALUES ('Davina');");
 
+    $driver = $db->getAttribute(\PDO::ATTR_DRIVER_NAME);
+    switch ($driver) {
+        case "pgsql": $inet = "INET"; break;
+        default: $inet = "varchar(250)"; break;
+    }
+
     $db->exec("DROP TABLE IF EXISTS bans");
     $db->exec("CREATE TABLE bans (
 		id $aipk,
-		ip varchar(250) NOT NULL,
+		ip $inet NOT NULL,
 		mode varchar(250) NOT NULL DEFAULT 'block',
 		reason text NOT NULL,
 		banner_id integer NOT NULL,
