@@ -4,7 +4,7 @@ namespace MicroCRUD;
 use function MicroHTML\SELECT;
 use function MicroHTML\OPTION;
 
-class EnumColumn extends StringColumn
+class EnumColumn extends Column
 {
     public $options;
 

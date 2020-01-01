@@ -15,7 +15,7 @@ class ForeignTextColumnTest extends \PHPUnit\Framework\TestCase
         $t->inputs = ["r_all" => "on", "r_banner" => "Alice"];
         list($q, $a) = $t->get_filter();
 
-        $this->assertEquals("(banner = :banner)", $q);
+        $this->assertEquals("(LOWER(banner) = LOWER(:banner))", $q);
         $this->assertEquals(['banner' => 'Alice'], $a);
 
         $rows = $t->query();
