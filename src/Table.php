@@ -88,13 +88,16 @@ class Table
                 }
             }
             if (!empty($val)) {
-                $filters[] = $col->get_sql_filter();
-                $val = $col->modify_input_for_read($val);
-                if (!is_array($val)) {
-                    $args[$col->name] = $val;
-                } else { // array
-                    foreach ($val as $k => $v) {
-                        $args["{$col->name}_$k"] = $v;
+                $filter = $col->get_sql_filter();
+                if (!empty($filter)) {
+                    $filters[] = $filter;
+                    $val = $col->modify_input_for_read($val);
+                    if (!is_array($val)) {
+                        $args[$col->name] = $val;
+                    } else { // array
+                        foreach ($val as $k => $v) {
+                            $args["{$col->name}_$k"] = $v;
+                        }
                     }
                 }
             }

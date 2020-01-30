@@ -3,7 +3,7 @@ namespace MicroCRUD;
 
 class TextColumn extends Column
 {
-    public function get_sql_filter(): string
+    public function get_sql_filter(): ?string
     {
         return "(LOWER({$this->name}) LIKE LOWER(:{$this->name}))";
     }

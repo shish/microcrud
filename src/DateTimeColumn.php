@@ -7,7 +7,7 @@ use function MicroHTML\BR;
 
 class DateTimeColumn extends Column
 {
-    public function get_sql_filter(): string
+    public function get_sql_filter(): ?string
     {
         return "({$this->name} >= :{$this->name}_0 AND {$this->name} < :{$this->name}_1)";
     }

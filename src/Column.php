@@ -18,7 +18,7 @@ class Column
 
     // What to add to the SQL query to search this field
     // eg "(user_name LIKE :user_name)"
-    public function get_sql_filter(): string
+    public function get_sql_filter(): ?string
     {
         return "({$this->name} = :{$this->name})";
     }

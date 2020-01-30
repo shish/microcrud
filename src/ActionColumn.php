@@ -44,8 +44,8 @@ class ActionColumn extends Column
         );
     }
 
-    public function get_sql_filter(): string
+    public function get_sql_filter(): ?string
     {
-        return "(1=1)";
+        return null;
     }
 }
