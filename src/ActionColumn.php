@@ -43,4 +43,9 @@ class ActionColumn extends Column
             INPUT(["type"=>"submit", "value"=>"Add"])
         );
     }
+
+    public function get_sql_filter(): string
+    {
+        return "(1=1)";
+    }
 }
