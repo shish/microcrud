@@ -180,7 +180,7 @@ class Table
 
     public function count_pages(): int
     {
-        $p = ceil($this->count() / $this->size());
+        $p = (int)ceil($this->count() / $this->size());
         if ($p == 0) {
             $p = 1;
         }
