@@ -5,7 +5,7 @@ use \FFSPHP\PDO;
 
 use MicroHTML\HTMLElement;
 use function MicroHTML\emptyHTML;
-use function MicroHTML\TABLE;
+use function MicroHTML\TABLE as html_TABLE;
 use function MicroHTML\THEAD;
 use function MicroHTML\TBODY;
 use function MicroHTML\TFOOT;
@@ -57,7 +57,7 @@ class Table
     public function size(): ?int
     {
         // admin can set $table->size = null if they want all results
-        if (is_null($this->size)) {
+        if (!$this->size) {
             return null;
         }
 
@@ -148,7 +148,7 @@ class Table
         $page = !empty($this->inputs["r__page"]) ? (int)$this->inputs["r__page"] : 1;
         $size = $this->size();
         $pager = "";
-        if (!is_null($size)) {
+        if ($size) {
             $pager = "LIMIT :limit OFFSET :offset";
             $args["offset"] = $size * ($page-1);
             $args["limit"] = $size;
@@ -190,7 +190,7 @@ class Table
     // html generation
     public function table(array $rows): HTMLElement
     {
-        return TABLE(
+        return html_TABLE(
             $this->table_attrs,
             "\n",
             $this->thead(),
