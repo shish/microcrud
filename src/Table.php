@@ -279,12 +279,12 @@ class Table
         $max = $this->count_pages();
         
         $first_html  = $cur == $min ? "First" : A(["href"=>$this->page_url($min)], "First");
-        $prev_html   = $cur == $min ? "Prev"  : A(["href"=>$this->page_url($cur - 1)], "Prev");
+        $prev_html   = $cur == $min ? "Prev" : A(["href"=>$this->page_url($cur - 1)], "Prev");
 
         $random_html = "-";
 
-        $next_html   = $cur == $max ? "Next"  : A(["href"=>$this->page_url($cur + 1)], "Next");
-        $last_html   = $cur == $max ? "Last"  : A(["href"=>$this->page_url($max)], "Last");
+        $next_html   = $cur == $max ? "Next" : A(["href"=>$this->page_url($cur + 1)], "Next");
+        $last_html   = $cur == $max ? "Last" : A(["href"=>$this->page_url($max)], "Last");
 
         $start = $cur-5 > $min ? $cur-5 : $min;
         $end = $start+10 < $max ? $start+10 : $max;
