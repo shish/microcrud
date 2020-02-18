@@ -148,7 +148,7 @@ class Table
         $page = !empty($this->inputs["r__page"]) ? (int)$this->inputs["r__page"] : 1;
         $size = $this->size();
         $pager = "";
-        if ($size) {
+        if ($size !== null && $size > 0) {
             $pager = "LIMIT :limit OFFSET :offset";
             $args["offset"] = $size * ($page-1);
             $args["limit"] = $size;
