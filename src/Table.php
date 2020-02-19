@@ -19,6 +19,16 @@ use function MicroHTML\A;
 use function MicroHTML\B;
 use function MicroHTML\BR;
 
+function all_empty(array $val): bool
+{
+    foreach ($val as $v) {
+        if ($v) {
+            return false;
+        }
+    }
+    return true;
+}
+
 class Table
 {
     public $db = null;
@@ -76,16 +86,8 @@ class Table
         foreach ($this->columns as $col) {
             $val = @$this->inputs["r_{$col->name}"];
             // convert an array of empty strings into an empty value
-            if (is_array($val)) {
-                $all_empty = true;
-                foreach ($val as $v) {
-                    if ($v) {
-                        $all_empty = false;
-                    }
-                }
-                if ($all_empty) {
-                    $val = null;
-                }
+            if (is_array($val) && all_empty($val)) {
+                $val = null;
             }
             if (!empty($val)) {
                 $filter = $col->get_sql_filter();
