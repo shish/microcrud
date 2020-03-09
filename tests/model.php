@@ -2,6 +2,7 @@
 use function MicroHTML\A;
 use MicroCRUD\ActionColumn;
 use MicroCRUD\InetColumn;
+use MicroCRUD\IntegerColumn;
 use MicroCRUD\StringColumn;
 use MicroCRUD\DateColumn;
 use MicroCRUD\DateTimeColumn;
@@ -64,6 +65,7 @@ class IPBanTable extends Table
             new EnumColumn("mode", "Mode", ["Block"=>"block", "Firewall"=>"firewall", "Read-only"=>"readonly"]),
             new TextColumn("reason", "Reason"),
             new StringColumn("banner", "Banner"),
+            new IntegerColumn("banner_id", "Banner ID"),
             new DateColumn("added", "Added"),
             new DateTimeColumn("expires", "Expires"),
             new CustomColumn(),
