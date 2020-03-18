@@ -35,6 +35,11 @@ class DateColumn extends Column
         if (empty($s)) {
             $s = "0001/01/01";
         }
+        if ($e) {
+            $date = new \DateTime($e);
+            $date->modify('+1 day');
+            $e = $date->format('Y/m/d');
+        }
         if (empty($e)) {
             $e = "9999/12/31";
         }
