@@ -29,6 +29,25 @@ function all_empty(array $val): bool
     return true;
 }
 
+function emptyish_to_null($val)
+{
+    // convert an array of empty strings into an empty value
+    if (is_array($val)) {
+        $val = array_map("trim", $val);
+        if (all_empty($val)) {
+            $val = null;
+        }
+    }
+    // convert whitespace-only strings to empty value
+    elseif (is_string($val)) {
+        $val = trim($val);
+        if ($val == "") {
+            $val = null;
+        }
+    }
+    return $val;
+}
+
 class Table
 {
     public $db = null;
@@ -84,12 +103,9 @@ class Table
         $filters = [];
         $args = [];
         foreach ($this->columns as $col) {
-            $val = @$this->inputs["r_{$col->name}"];
-            // convert an array of empty strings into an empty value
-            if (is_array($val) && all_empty($val)) {
-                $val = null;
-            }
-            if (!empty($val)) {
+            $val = emptyish_to_null(@$this->inputs["r_{$col->name}"]);
+
+            if ($val != null) {
                 $filter = $col->get_sql_filter();
                 if ($filter != null) {
                     $filters[] = $filter;
