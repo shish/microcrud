@@ -71,7 +71,7 @@ class Table
             return null;
         }
 
-        $size = !empty($this->inputs["r__size"]) ? (int)$this->inputs["r__size"] : $this->size;
+        $size = (int)($this->inputs["r__size"] ?? $this->size);
         if ($size > $this->limit) {
             $size = $this->limit;
         }
@@ -91,7 +91,7 @@ class Table
             }
             if (!empty($val)) {
                 $filter = $col->get_sql_filter();
-                if (!empty($filter)) {
+                if ($filter != null) {
                     $filters[] = $filter;
                     $val = $col->modify_input_for_read($val);
                     if (!is_array($val)) {
@@ -115,7 +115,7 @@ class Table
                 }
             }
         }
-        if (empty($filters)) {
+        if (count($filters) == 0) {
             $filters[] = "(1=1)";
         }
         return [implode(" AND ", $filters), $args];
@@ -142,12 +142,12 @@ class Table
                 }
             }
         }
-        if (empty($order_by) && !empty($this->order_by)) {
+        if ($order_by == "" && count($this->order_by) > 0) {
             $order_by = "ORDER BY " . join(", ", $this->order_by);
         }
 
         // LIMIT / OFFSET
-        $page = !empty($this->inputs["r__page"]) ? (int)$this->inputs["r__page"] : 1;
+        $page = (int)($this->inputs["r__page"] ?? 1);
         $size = $this->size();
         $pager = "";
         if ($size !== null && $size > 0) {
