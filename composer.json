@@ -16,8 +16,8 @@
     "require": {
         "php": "^7.3",
         "ext-pdo": "*",
-        "shish/ffsphp": "0.0.*",
-        "shish/microhtml": "^1.0.0"
+        "shish/ffsphp": "^1.0",
+        "shish/microhtml": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.0"

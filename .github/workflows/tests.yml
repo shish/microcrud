@@ -26,8 +26,7 @@ jobs:
     - name: Set up database
       run: |
         if [[ "${{ matrix.database }}" == "pgsql" ]]; then
-            sudo apt update
-            sudo apt-get install -y postgresql postgresql-client ;
+            sudo systemctl start postgresql ;
             psql --version ;
             sudo -u postgres psql -c "SELECT set_config('log_statement', 'all', false);" -U postgres ;
             sudo -u postgres psql -c "CREATE USER root WITH PASSWORD 'root';" -U postgres ;
