@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 class TableHTMLTest extends \PHPUnit\Framework\TestCase
 {
@@ -38,6 +38,6 @@ class TableHTMLTest extends \PHPUnit\Framework\TestCase
     public function test_paginator()
     {
         $t = new IPBanTable($this->db);
-        $this->assertStringContainsString("1", $t->paginator());
+        $this->assertStringContainsString("1", (string)$t->paginator());
     }
 }

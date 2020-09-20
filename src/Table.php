@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace MicroCRUD;
 
 use \FFSPHP\PDO;
@@ -193,7 +194,7 @@ class Table
 			) AS tbl2
         ";
 
-        return $this->db->execute($query, $args)->fetch()[0];
+        return intval($this->db->execute($query, $args)->fetch()[0]);
     }
 
     public function count_pages(): int

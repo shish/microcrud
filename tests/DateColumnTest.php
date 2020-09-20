@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 use \MicroCRUD\DateColumn;
 
 class DateColumnTest extends \PHPUnit\Framework\TestCase

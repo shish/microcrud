@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 use function MicroHTML\A;
 use MicroCRUD\ActionColumn;
 use MicroCRUD\InetColumn;
