@@ -49,6 +49,7 @@ class DateColumn extends Column
 
     public function display(array $row)
     {
+        if(is_null($row[$this->name])) return "";
         return substr($row[$this->name], 0, 10);
     }
 
