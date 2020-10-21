@@ -41,6 +41,7 @@ class DateTimeColumn extends Column
         }
         return [$s, $e];
     }
+
     public function display(array $row)
     {
 		if(is_null($row[$this->name])) return "";

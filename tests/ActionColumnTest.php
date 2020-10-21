@@ -18,4 +18,14 @@ class ActionColumnTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("(1=1)", $q);
         $this->assertEquals([], $a);
     }
+
+    public function test_display()
+    {
+        $c = new \MicroCRUD\ActionColumn("id");
+        $c->table = new IPBanTable($this->db);
+        $this->assertStringContainsString(
+            "type='hidden' name='d_id' value='42'",
+            (string)$c->display(["id"=>42])
+        );
+    }
 }

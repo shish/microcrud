@@ -76,4 +76,17 @@ class DateColumnTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("(1=1)", $q);
         $this->assertEquals([], $a);
     }
+
+    public function test_display()
+    {
+        $c = new DateColumn("test", "Test");
+        $this->assertEquals(
+            "2020/05/10",
+            $c->display(["test" => "2020/05/10 12:34:56"])
+        );
+        $this->assertEquals(
+            "",
+            $c->display(["test" => null])
+        );
+    }
 }
