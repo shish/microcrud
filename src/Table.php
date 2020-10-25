@@ -92,6 +92,9 @@ class Table
         }
 
         $size = (int)($this->inputs["r__size"] ?? $this->size);
+        if ($size <= 0) {
+            $size = $this->size;
+        }
         if ($size > $this->limit) {
             $size = $this->limit;
         }

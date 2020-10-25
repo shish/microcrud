@@ -30,9 +30,23 @@ class TableQueryTest extends \PHPUnit\Framework\TestCase
     public function test_size()
     {
         $t = new IPBanTable($this->db);
+
+        // sensible number
         $t->inputs = ["r__size" => 5];
         $this->assertEquals(5, count($t->query()));
         $this->assertEquals($this->total, $t->count());
+
+        // empty: default
+        $t->inputs = ["r__size" => ""];
+        $this->assertEquals(10, $t->size());
+
+        // invalid: default
+        $t->inputs = ["r__size" => "foo"];
+        $this->assertEquals(10, $t->size());
+
+        // too high: set to limit
+        $t->inputs = ["r__size" => "30"];
+        $this->assertEquals(20, $t->size());
     }
 
     public function test_count_pages()
