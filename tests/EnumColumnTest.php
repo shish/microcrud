@@ -1,6 +1,8 @@
-<?php declare(strict_types=1);
+<?php
 
-use \MicroCRUD\EnumColumn;
+declare(strict_types=1);
+
+use MicroCRUD\EnumColumn;
 
 class EnumColumnTest extends \PHPUnit\Framework\TestCase
 {

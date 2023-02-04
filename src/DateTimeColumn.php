@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace MicroCRUD;
 
@@ -44,7 +46,9 @@ class DateTimeColumn extends Column
 
     public function display(array $row)
     {
-		if(is_null($row[$this->name])) return "";
+        if (is_null($row[$this->name])) {
+            return "";
+        }
         return substr($row[$this->name], 0, 19);
     }
 

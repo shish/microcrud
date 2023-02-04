@@ -1,10 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace MicroCRUD;
 
-use \FFSPHP\PDO;
+use FFSPHP\PDO;
 
 use MicroHTML\HTMLElement;
+
 use function MicroHTML\emptyHTML;
 use function MicroHTML\TABLE as html_TABLE;
 use function MicroHTML\THEAD;
@@ -67,7 +70,7 @@ class Table
     public $update_url = null;
     public $delete_url = null;
     public $token = null;
-    
+
     public $inputs = [];
 
     public function __construct(PDO $db)
@@ -299,7 +302,7 @@ class Table
         $min = 1;
         $cur = (int)($this->inputs["r__page"] ?? 1);
         $max = $this->count_pages();
-        
+
         $first_html  = $cur == $min ? "First" : A(["href"=>$this->page_url($min)], "First");
         $prev_html   = $cur == $min ? "Prev" : A(["href"=>$this->page_url($cur - 1)], "Prev");
 

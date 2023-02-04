@@ -1,6 +1,7 @@
-<?php declare(strict_types=1);
+<?php
 
-use function MicroHTML\A;
+declare(strict_types=1);
+
 use MicroCRUD\ActionColumn;
 use MicroCRUD\InetColumn;
 use MicroCRUD\IntegerColumn;
@@ -12,6 +13,8 @@ use MicroCRUD\EnumColumn;
 use MicroCRUD\Column;
 use MicroCRUD\Table;
 use FFSPHP\PDO;
+
+use function MicroHTML\A;
 
 class CustomColumn extends Column
 {
@@ -110,8 +113,10 @@ function create_mock_db()
 
     $driver = $db->getAttribute(\PDO::ATTR_DRIVER_NAME);
     switch ($driver) {
-        case "pgsql": $inet = "INET"; break;
-        default: $inet = "varchar(250)"; break;
+        case "pgsql": $inet = "INET";
+        break;
+        default: $inet = "varchar(250)";
+        break;
     }
 
     $db->exec("DROP TABLE IF EXISTS bans");
