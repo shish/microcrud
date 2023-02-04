@@ -114,9 +114,9 @@ function create_mock_db()
     $driver = $db->getAttribute(\PDO::ATTR_DRIVER_NAME);
     switch ($driver) {
         case "pgsql": $inet = "INET";
-        break;
+            break;
         default: $inet = "varchar(250)";
-        break;
+            break;
     }
 
     $db->exec("DROP TABLE IF EXISTS bans");
