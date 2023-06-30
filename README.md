@@ -1,5 +1,8 @@
 MicroCRUD
 =========
+A library that you can point at a database table, and it'll give you a bunch
+of HTML forms for create / read / update / delete actions.
+
 I kept re-implementing (badly) a bunch of code to do this stuff. Instead of
 implementing it badly a 10th time, I decided to put it into a self-contained
 library with the union of features.
@@ -7,8 +10,8 @@ library with the union of features.
 Currently this uses FFS-PHP's PDO, but it wouldn't be too hard to use vanilla
 PDO if anybody requested that feature.
 
-```
-use \MicroCRUD\{Table, ActionColumn, TextColumn};
+```php
+use \MicroCRUD\{Table, TextColumn, ActionColumn};
 
 class MyTable extends Table {
     public function __construct($db) {
@@ -25,7 +28,7 @@ $t = MyTable($db);
 print($t->table());
 ```
 
-```
+```html
 <table>
 	<thead>
 		[... titles and search fields ...]
