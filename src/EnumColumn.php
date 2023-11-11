@@ -22,10 +22,10 @@ class EnumColumn extends Column
 
     public function read_input($inputs)
     {
-        $s = SELECT(["name"=>"r_{$this->name}"]);
-        $s->appendChild(OPTION(["value"=>""], '-'));
+        $s = SELECT(["name" => "r_{$this->name}"]);
+        $s->appendChild(OPTION(["value" => ""], '-'));
         foreach ($this->options as $k => $v) {
-            $attrs = ["value"=>$v];
+            $attrs = ["value" => $v];
             if ($v == @$inputs["r_{$this->name}"]) {
                 $attrs["selected"] = true;
             }
@@ -36,9 +36,9 @@ class EnumColumn extends Column
 
     public function create_input($inputs)
     {
-        $s = SELECT(["name"=>"c_{$this->name}"]);
+        $s = SELECT(["name" => "c_{$this->name}"]);
         foreach ($this->options as $k => $v) {
-            $attrs = ["value"=>$v];
+            $attrs = ["value" => $v];
             if ($v == @$inputs["c_{$this->name}"]) {
                 $attrs["selected"] = true;
             }

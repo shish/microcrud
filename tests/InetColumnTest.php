@@ -19,7 +19,7 @@ class InetColumnTest extends \PHPUnit\Framework\TestCase
         $mock_db = $this->createMock(\FFSPHP\PDO::class);
         $mock_db->method('getAttribute')->willReturn('sqlite');
         $t = new IPBanTable($mock_db);
-        $t->inputs = ["r_all"=>"on", "r_ip"=>"1.2.3.4"];
+        $t->inputs = ["r_all" => "on", "r_ip" => "1.2.3.4"];
         list($q, $a) = $t->get_filter();
         $this->assertEquals("(ip = :ip)", $q);
     }
@@ -29,7 +29,7 @@ class InetColumnTest extends \PHPUnit\Framework\TestCase
         $mock_db = $this->createMock(\FFSPHP\PDO::class);
         $mock_db->method('getAttribute')->willReturn('pgsql');
         $t = new IPBanTable($mock_db);
-        $t->inputs = ["r_all"=>"on", "r_ip"=>"1.2.3.4"];
+        $t->inputs = ["r_all" => "on", "r_ip" => "1.2.3.4"];
         list($q, $a) = $t->get_filter();
         $this->assertEquals("(ip && cast(:ip as inet))", $q);
     }
@@ -38,7 +38,7 @@ class InetColumnTest extends \PHPUnit\Framework\TestCase
     public function test_inet_exact_search()
     {
         $t = new IPBanTable($this->db);
-        $t->inputs = ["r_all"=>"on", "r_ip"=>"1.2.3.4"];
+        $t->inputs = ["r_all" => "on", "r_ip" => "1.2.3.4"];
         list($q, $a) = $t->get_filter();
         $rows = $t->query();
 
@@ -55,7 +55,7 @@ class InetColumnTest extends \PHPUnit\Framework\TestCase
     public function test_inet_range_search()
     {
         $t = new IPBanTable($this->db);
-        $t->inputs = ["r_all"=>"on", "r_ip"=>"1.2.3.0/30"];
+        $t->inputs = ["r_all" => "on", "r_ip" => "1.2.3.0/30"];
         list($q, $a) = $t->get_filter();
         $rows = $t->query();
 
