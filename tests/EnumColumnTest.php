@@ -16,19 +16,19 @@ class EnumColumnTest extends \PHPUnit\Framework\TestCase
     // HTML Generation
     public function test_no_selection()
     {
-        $c = new EnumColumn("mode", "Mode", ["a"=>"1", "b"=>"2"]);
+        $c = new EnumColumn("mode", "Mode", ["a" => "1", "b" => "2"]);
         $this->assertStringNotContainsString("selected", (string)$c->read_input([]));
     }
 
     public function test_input_selection()
     {
-        $c = new EnumColumn("mode", "Mode", ["a"=>"1", "b"=>"2"]);
+        $c = new EnumColumn("mode", "Mode", ["a" => "1", "b" => "2"]);
         $this->assertStringContainsString("selected", (string)$c->read_input(["r_mode" => "1"]));
     }
 
     public function test_create_selection()
     {
-        $c = new EnumColumn("mode", "Mode", ["a"=>"1", "b"=>"2"]);
+        $c = new EnumColumn("mode", "Mode", ["a" => "1", "b" => "2"]);
         $this->assertStringContainsString("selected", (string)$c->create_input(["c_mode" => "1"]));
     }
 
@@ -36,7 +36,7 @@ class EnumColumnTest extends \PHPUnit\Framework\TestCase
     public function test_string()
     {
         $t = new IPBanTable($this->db);
-        $t->inputs = ["r_all"=>"on", "r_mode"=>"block"];
+        $t->inputs = ["r_all" => "on", "r_mode" => "block"];
         list($q, $a) = $t->get_filter();
 
         $this->assertEquals("(mode = :mode)", $q);

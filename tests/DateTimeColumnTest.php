@@ -16,7 +16,7 @@ class DateTimeColumnTest extends \PHPUnit\Framework\TestCase
     public function test_date_range_search()
     {
         $t = new IPBanTable($this->db);
-        $t->inputs = ["r_all"=>"on", "r_expires"=>["2005/01/01", "2015/02/01"]];
+        $t->inputs = ["r_all" => "on", "r_expires" => ["2005/01/01", "2015/02/01"]];
         list($q, $a) = $t->get_filter();
 
         $this->assertEquals("(expires >= :expires_0 AND expires < :expires_1)", $q);
@@ -30,7 +30,7 @@ class DateTimeColumnTest extends \PHPUnit\Framework\TestCase
     public function test_date_range_open_end()
     {
         $t = new IPBanTable($this->db);
-        $t->inputs = ["r_all"=>"on", "r_expires"=>["1985/01/01", ""]];
+        $t->inputs = ["r_all" => "on", "r_expires" => ["1985/01/01", ""]];
         list($q, $a) = $t->get_filter();
 
         $this->assertEquals("(expires >= :expires_0 AND expires < :expires_1)", $q);
@@ -44,7 +44,7 @@ class DateTimeColumnTest extends \PHPUnit\Framework\TestCase
     public function test_date_range_open_start()
     {
         $t = new IPBanTable($this->db);
-        $t->inputs = ["r_all"=>"on", "r_expires"=>["", "2015/02/01"]];
+        $t->inputs = ["r_all" => "on", "r_expires" => ["", "2015/02/01"]];
         list($q, $a) = $t->get_filter();
 
         $this->assertEquals("(expires >= :expires_0 AND expires < :expires_1)", $q);
@@ -58,7 +58,7 @@ class DateTimeColumnTest extends \PHPUnit\Framework\TestCase
     public function test_date_range_empty()
     {
         $t = new IPBanTable($this->db);
-        $t->inputs = ["r_all"=>"on", "r_expires"=>["", ""]];
+        $t->inputs = ["r_all" => "on", "r_expires" => ["", ""]];
         list($q, $a) = $t->get_filter();
 
         $this->assertEquals("(1=1)", $q);

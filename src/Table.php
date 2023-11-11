@@ -175,7 +175,7 @@ class Table
         $pager = "";
         if ($size !== null && $size > 0) {
             $pager = "LIMIT :limit OFFSET :offset";
-            $args["offset"] = $size * ($page-1);
+            $args["offset"] = $size * ($page - 1);
             $args["limit"] = $size;
         }
 
@@ -229,14 +229,14 @@ class Table
 
     public function thead(): HTMLElement
     {
-        $thead = THEAD(["id"=>"read"]);
+        $thead = THEAD(["id" => "read"]);
 
         $tr = TR();
         foreach ($this->columns as $col) {
             if ($col->sortable) {
                 $sort_name = (@$this->inputs["r__sort"] == $col->name) ? "-{$col->name}" : $col->name;
-                $sort = "?" . $this->modify_url(["r__sort"=>$sort_name]);
-                $tr->appendChild(TH(A(["href"=>$sort], $col->title)));
+                $sort = "?" . $this->modify_url(["r__sort" => $sort_name]);
+                $tr->appendChild(TH(A(["href" => $sort], $col->title)));
             } else {
                 $tr->appendChild(TH($col->title));
             }
@@ -251,7 +251,7 @@ class Table
         }
         foreach ($this->flags as $flag => $_vals) {
             $tr->appendChild(
-                INPUT(["type"=>"hidden", "name"=>"r_{$flag}", "value"=>@$this->inputs["r_{$flag}"]])
+                INPUT(["type" => "hidden", "name" => "r_{$flag}", "value" => @$this->inputs["r_{$flag}"]])
             );
             $used_inputs[] = "r_{$flag}";
         }
@@ -269,7 +269,7 @@ class Table
 
     public function tbody(array $rows): HTMLElement
     {
-        $tbody = TBODY(["id"=>"update"]);
+        $tbody = TBODY(["id" => "update"]);
         foreach ($rows as $row) {
             $tr = TR();
             $tbody->appendChild($tr);
@@ -282,10 +282,10 @@ class Table
 
     public function tfoot(): HTMLElement
     {
-        $tfoot = TFOOT(["id"=>"create"]);
+        $tfoot = TFOOT(["id" => "create"]);
         if ($this->create_url) {
             $tr = TR();
-            $tfoot->appendChild(FORM(["method"=>"POST", 'action'=>$this->create_url], $tr));
+            $tfoot->appendChild(FORM(["method" => "POST", 'action' => $this->create_url], $tr));
             foreach ($this->columns as $col) {
                 $tr->appendChild(TD($col->create_input($this->inputs)));
             }
@@ -304,7 +304,7 @@ class Table
 
     public function page_url(int $page): string
     {
-        return "?" . $this->modify_url(["r__page"=>$page]);
+        return "?" . $this->modify_url(["r__page" => $page]);
     }
 
     public function paginator(): HTMLElement
@@ -313,20 +313,20 @@ class Table
         $cur = (int)($this->inputs["r__page"] ?? 1);
         $max = $this->count_pages();
 
-        $first_html  = $cur == $min ? "First" : A(["href"=>$this->page_url($min)], "First");
-        $prev_html   = $cur == $min ? "Prev" : A(["href"=>$this->page_url($cur - 1)], "Prev");
+        $first_html  = $cur == $min ? "First" : A(["href" => $this->page_url($min)], "First");
+        $prev_html   = $cur == $min ? "Prev" : A(["href" => $this->page_url($cur - 1)], "Prev");
 
         $random_html = "-";
 
-        $next_html   = $cur == $max ? "Next" : A(["href"=>$this->page_url($cur + 1)], "Next");
-        $last_html   = $cur == $max ? "Last" : A(["href"=>$this->page_url($max)], "Last");
+        $next_html   = $cur == $max ? "Next" : A(["href" => $this->page_url($cur + 1)], "Next");
+        $last_html   = $cur == $max ? "Last" : A(["href" => $this->page_url($max)], "Last");
 
-        $start = $cur-5 > $min ? $cur-5 : $min;
-        $end = $start+10 < $max ? $start+10 : $max;
+        $start = $cur - 5 > $min ? $cur - 5 : $min;
+        $end = $start + 10 < $max ? $start + 10 : $max;
 
         $pages = emptyHTML();
         foreach (range($start, $end) as $i) {
-            $link = A(["href"=>$this->page_url($i)], "$i");
+            $link = A(["href" => $this->page_url($i)], "$i");
             if ($i == $cur) {
                 $link = B($link);
             }

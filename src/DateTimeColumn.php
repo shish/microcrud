@@ -19,15 +19,15 @@ class DateTimeColumn extends Column
     {
         return emptyHTML(
             INPUT([
-                "type"=>"datetime-local",
-                "name"=>"r_{$this->name}[]",
-                "value"=>@$inputs["r_{$this->name}"][0]
+                "type" => "datetime-local",
+                "name" => "r_{$this->name}[]",
+                "value" => @$inputs["r_{$this->name}"][0]
             ]),
             BR(),
             INPUT([
-                "type"=>"datetime-local",
-                "name"=>"r_{$this->name}[]",
-                "value"=>@$inputs["r_{$this->name}"][1]
+                "type" => "datetime-local",
+                "name" => "r_{$this->name}[]",
+                "value" => @$inputs["r_{$this->name}"][1]
             ])
         );
     }
@@ -55,9 +55,9 @@ class DateTimeColumn extends Column
     public function create_input(array $inputs)
     {
         return INPUT([
-            "type"=>"datetime-local",
-            "name"=>"c_{$this->name}",
-            "value"=>@$inputs["c_{$this->name}"]
+            "type" => "datetime-local",
+            "name" => "c_{$this->name}",
+            "value" => @$inputs["c_{$this->name}"]
         ]);
     }
 }

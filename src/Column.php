@@ -34,10 +34,10 @@ class Column
     public function read_input(array $inputs)
     {
         return INPUT([
-            "type"=>"text",
-            "name"=>"r_{$this->name}",
-            "placeholder"=>$this->title,
-            "value"=>@$inputs["r_{$this->name}"]
+            "type" => "text",
+            "name" => "r_{$this->name}",
+            "placeholder" => $this->title,
+            "value" => @$inputs["r_{$this->name}"]
         ]);
     }
 
@@ -51,10 +51,10 @@ class Column
     public function create_input(array $inputs)
     {
         return INPUT([
-            "type"=>"text",
-            "name"=>"c_{$this->name}",
-            "placeholder"=>$this->title,
-            "value"=>@$inputs["c_{$this->name}"]
+            "type" => "text",
+            "name" => "c_{$this->name}",
+            "placeholder" => $this->title,
+            "value" => @$inputs["c_{$this->name}"]
         ]);
     }
 }

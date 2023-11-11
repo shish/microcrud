@@ -16,7 +16,7 @@ class DateColumnTest extends \PHPUnit\Framework\TestCase
     public function test_date_range_search()
     {
         $t = new IPBanTable($this->db);
-        $t->inputs = ["r_all"=>"on", "r_added"=>["1985/01/01", "1995/02/01"]];
+        $t->inputs = ["r_all" => "on", "r_added" => ["1985/01/01", "1995/02/01"]];
         list($q, $a) = $t->get_filter();
 
         $this->assertEquals("(added >= :added_0 AND added < :added_1)", $q);
@@ -30,7 +30,7 @@ class DateColumnTest extends \PHPUnit\Framework\TestCase
     public function test_date_one_day_search()
     {
         $t = new IPBanTable($this->db);
-        $t->inputs = ["r_all"=>"on", "r_added"=>["1990-01-01", "1990-01-01"]];
+        $t->inputs = ["r_all" => "on", "r_added" => ["1990-01-01", "1990-01-01"]];
         list($q, $a) = $t->get_filter();
 
         $this->assertEquals("(added >= :added_0 AND added < :added_1)", $q);
@@ -44,7 +44,7 @@ class DateColumnTest extends \PHPUnit\Framework\TestCase
     public function test_date_range_open_end()
     {
         $t = new IPBanTable($this->db);
-        $t->inputs = ["r_all"=>"on", "r_added"=>["1985/01/01", ""]];
+        $t->inputs = ["r_all" => "on", "r_added" => ["1985/01/01", ""]];
         list($q, $a) = $t->get_filter();
 
         $this->assertEquals("(added >= :added_0 AND added < :added_1)", $q);
@@ -58,7 +58,7 @@ class DateColumnTest extends \PHPUnit\Framework\TestCase
     public function test_date_range_open_start()
     {
         $t = new IPBanTable($this->db);
-        $t->inputs = ["r_all"=>"on", "r_added"=>["", "1995/02/01"]];
+        $t->inputs = ["r_all" => "on", "r_added" => ["", "1995/02/01"]];
         list($q, $a) = $t->get_filter();
 
         $this->assertEquals("(added >= :added_0 AND added < :added_1)", $q);
@@ -72,7 +72,7 @@ class DateColumnTest extends \PHPUnit\Framework\TestCase
     public function test_date_range_empty()
     {
         $t = new IPBanTable($this->db);
-        $t->inputs = ["r_all"=>"on", "r_added"=>["", ""]];
+        $t->inputs = ["r_all" => "on", "r_added" => ["", ""]];
         list($q, $a) = $t->get_filter();
 
         $this->assertEquals("(1=1)", $q);
