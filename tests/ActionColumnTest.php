@@ -27,7 +27,7 @@ class ActionColumnTest extends \PHPUnit\Framework\TestCase
         $c->table = new IPBanTable($this->db);
         $this->assertStringContainsString(
             "type='hidden' name='d_id' value='42'",
-            (string)$c->display(["id"=>42])
+            (string)$c->display(["id" => 42])
         );
     }
 }

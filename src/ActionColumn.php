@@ -19,9 +19,9 @@ class ActionColumn extends Column
     public function read_input(array $inputs)
     {
         return emptyHTML(
-            INPUT(["type"=>"hidden", "name"=>"r__size", "value"=>@$inputs["r__size"]]),
-            INPUT(["type"=>"hidden", "name"=>"r__page", "value"=>1]),
-            INPUT(["type"=>"submit", "value"=>"Search"])
+            INPUT(["type" => "hidden", "name" => "r__size", "value" => @$inputs["r__size"]]),
+            INPUT(["type" => "hidden", "name" => "r__page", "value" => 1]),
+            INPUT(["type" => "submit", "value" => "Search"])
         );
     }
 
@@ -42,8 +42,8 @@ class ActionColumn extends Column
     public function create_input(array $inputs)
     {
         return emptyHTML(
-            INPUT(["type"=>"hidden", "name"=>"auth_token", "value"=>$this->table->token]),
-            INPUT(["type"=>"submit", "value"=>"Add"])
+            INPUT(["type" => "hidden", "name" => "auth_token", "value" => $this->table->token]),
+            INPUT(["type" => "submit", "value" => "Add"])
         );
     }
 

@@ -42,7 +42,7 @@ class CustomColumn extends Column
     public function display($row)
     {
         if ($row['ip'] == "1.2.3.4") {
-            return A(["href"=>"/users/edwin"], "Edwin");
+            return A(["href" => "/users/edwin"], "Edwin");
         } else {
             return $row['ip'];
         }
@@ -66,7 +66,7 @@ class IPBanTable extends Table
         $this->limit = 20;
         $this->set_columns([
             new InetColumn("ip", "IP"),
-            new EnumColumn("mode", "Mode", ["Block"=>"block", "Firewall"=>"firewall", "Read-only"=>"readonly"]),
+            new EnumColumn("mode", "Mode", ["Block" => "block", "Firewall" => "firewall", "Read-only" => "readonly"]),
             new TextColumn("reason", "Reason"),
             new StringColumn("banner", "Banner"),
             new IntegerColumn("banner_id", "Banner ID"),

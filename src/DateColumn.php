@@ -19,15 +19,15 @@ class DateColumn extends Column
     {
         return emptyHTML(
             INPUT([
-                "type"=>"date",
-                "name"=>"r_{$this->name}[]",
-                "value"=>@$inputs["r_{$this->name}"][0]
+                "type" => "date",
+                "name" => "r_{$this->name}[]",
+                "value" => @$inputs["r_{$this->name}"][0]
             ]),
             BR(),
             INPUT([
-                "type"=>"date",
-                "name"=>"r_{$this->name}[]",
-                "value"=>@$inputs["r_{$this->name}"][1]
+                "type" => "date",
+                "name" => "r_{$this->name}[]",
+                "value" => @$inputs["r_{$this->name}"][1]
             ])
         );
     }
@@ -60,9 +60,9 @@ class DateColumn extends Column
     public function create_input(array $inputs)
     {
         return INPUT([
-            "type"=>"date",
-            "name"=>"c_{$this->name}",
-            "value"=>@$inputs["c_{$this->name}"]
+            "type" => "date",
+            "name" => "c_{$this->name}",
+            "value" => @$inputs["c_{$this->name}"]
         ]);
     }
 }
