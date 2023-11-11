@@ -244,13 +244,23 @@ class Table
         $thead->appendChild($tr);
 
         $tr = TR();
+        $used_inputs = ["r__page", "r__size"];
         foreach ($this->columns as $col) {
             $tr->appendChild(TD($col->read_input($this->inputs)));
+            $used_inputs[] = "r_{$col->name}";
         }
         foreach ($this->flags as $flag => $_vals) {
             $tr->appendChild(
                 INPUT(["type"=>"hidden", "name"=>"r_{$flag}", "value"=>@$this->inputs["r_{$flag}"]])
             );
+            $used_inputs[] = "r_{$flag}";
+        }
+        foreach ($this->inputs as $k => $v) {
+            if (!in_array($k, $used_inputs)) {
+                $tr->appendChild(
+                    INPUT(["type"=>"hidden", "name"=>$k, "value"=>$v])
+                );
+            }
         }
         $thead->appendChild(FORM($tr));
 
