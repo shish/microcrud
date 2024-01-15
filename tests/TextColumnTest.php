@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 class TextColumnTest extends \PHPUnit\Framework\TestCase
 {
-    public $db = null;
+    public \FFSPHP\PDO $db;
 
     public function setUp(): void
     {
         $this->db = create_mock_db();
     }
 
-    public function test_whitespace()
+    public function test_whitespace(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r_reason" => " "];
@@ -25,7 +25,7 @@ class TextColumnTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("leech", $rows[0]["reason"]);
     }
 
-    public function test_like()
+    public function test_like(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r_reason" => "off"];
@@ -39,7 +39,7 @@ class TextColumnTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("offtopic", $rows[0]["reason"]);
     }
 
-    public function test_case_insensitive()
+    public function test_case_insensitive(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r_reason" => "OFF"];

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 class ForeignTextColumnTest extends \PHPUnit\Framework\TestCase
 {
-    public $db = null;
+    public \FFSPHP\PDO $db;
 
     public function setUp(): void
     {
         $this->db = create_mock_db();
     }
 
-    public function test_foreign()
+    public function test_foreign(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r_banner" => "Alice"];

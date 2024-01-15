@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 class TableQueryTest extends \PHPUnit\Framework\TestCase
 {
-    public $db = null;
-    public $total = 0;
+    public \FFSPHP\PDO $db;
+    public int $total = 0;
 
     public function setUp(): void
     {
@@ -14,7 +14,7 @@ class TableQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     // Database queries
-    public function test_query()
+    public function test_query(): void
     {
         $t = new IPBanTable($this->db);
         $rows = $t->query();
@@ -22,14 +22,14 @@ class TableQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(10, count($rows));
     }
 
-    public function test_count()
+    public function test_count(): void
     {
         $t = new IPBanTable($this->db);
         $n = $t->count();
         $this->assertEquals($this->total, $n);
     }
 
-    public function test_size()
+    public function test_size(): void
     {
         $t = new IPBanTable($this->db);
 
@@ -51,7 +51,7 @@ class TableQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(20, $t->size());
     }
 
-    public function test_count_pages()
+    public function test_count_pages(): void
     {
         // 0 results should generate one page,
         // even though it's really 0 pages
@@ -64,14 +64,14 @@ class TableQueryTest extends \PHPUnit\Framework\TestCase
      * When the programmer sets size=null, we should return all
      * data instead of paginating.
      */
-    public function test_size_null()
+    public function test_size_null(): void
     {
         $t = new IPBanTable($this->db);
         $t->size = null;
         $this->assertEquals($t->count(), count($t->query()));
     }
 
-    public function test_limit()
+    public function test_limit(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r__size" => 9001];
@@ -79,7 +79,7 @@ class TableQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($this->total, $t->count());
     }
 
-    public function test_page_start()
+    public function test_page_start(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r__page" => 1];
@@ -89,7 +89,7 @@ class TableQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("1.2.3.1", $rows[0]["ip"]);
     }
 
-    public function test_page_offset()
+    public function test_page_offset(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r__page" => 2];
@@ -99,7 +99,7 @@ class TableQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("1.2.3.11", $rows[0]["ip"]);
     }
 
-    public function test_page_size_offset()
+    public function test_page_size_offset(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r__size" => 20, "r__page" => 3];
@@ -109,7 +109,7 @@ class TableQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("1.2.3.41", $rows[0]["ip"]);
     }
 
-    public function test_sort()
+    public function test_sort(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r__sort" => "banner"];
@@ -117,7 +117,7 @@ class TableQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("Alice", $rows[0]["banner"]);
     }
 
-    public function test_reverse_sort()
+    public function test_reverse_sort(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r__sort" => "-banner"];
@@ -125,7 +125,7 @@ class TableQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("Charlie", $rows[0]["banner"]);
     }
 
-    public function test_invalid_sort()
+    public function test_invalid_sort(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r__sort" => "asdfasdf"];

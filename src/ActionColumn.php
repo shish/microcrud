@@ -10,13 +10,13 @@ use function MicroHTML\emptyHTML;
 
 class ActionColumn extends Column
 {
-    public function __construct($name)
+    public function __construct(string $name)
     {
         parent::__construct($name, "Action");
         $this->sortable = false;
     }
 
-    public function read_input(array $inputs)
+    public function read_input(array $inputs): \MicroHTML\HTMLElement|string
     {
         return emptyHTML(
             INPUT(["type" => "hidden", "name" => "r__size", "value" => @$inputs["r__size"]]),
@@ -25,7 +25,7 @@ class ActionColumn extends Column
         );
     }
 
-    public function display(array $row)
+    public function display(array $row): \MicroHTML\HTMLElement|string
     {
         if ($this->table->delete_url) {
             return FORM(
@@ -39,7 +39,7 @@ class ActionColumn extends Column
         }
     }
 
-    public function create_input(array $inputs)
+    public function create_input(array $inputs): \MicroHTML\HTMLElement|string
     {
         return emptyHTML(
             INPUT(["type" => "hidden", "name" => "auth_token", "value" => $this->table->token]),

@@ -6,7 +6,7 @@ use MicroCRUD\EnumColumn;
 
 class EnumColumnTest extends \PHPUnit\Framework\TestCase
 {
-    public $db;
+    public \FFSPHP\PDO $db;
 
     public function setUp(): void
     {
@@ -14,26 +14,26 @@ class EnumColumnTest extends \PHPUnit\Framework\TestCase
     }
 
     // HTML Generation
-    public function test_no_selection()
+    public function test_no_selection(): void
     {
         $c = new EnumColumn("mode", "Mode", ["a" => "1", "b" => "2"]);
         $this->assertStringNotContainsString("selected", (string)$c->read_input([]));
     }
 
-    public function test_input_selection()
+    public function test_input_selection(): void
     {
         $c = new EnumColumn("mode", "Mode", ["a" => "1", "b" => "2"]);
         $this->assertStringContainsString("selected", (string)$c->read_input(["r_mode" => "1"]));
     }
 
-    public function test_create_selection()
+    public function test_create_selection(): void
     {
         $c = new EnumColumn("mode", "Mode", ["a" => "1", "b" => "2"]);
         $this->assertStringContainsString("selected", (string)$c->create_input(["c_mode" => "1"]));
     }
 
     // SQL Generation
-    public function test_string()
+    public function test_string(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r_mode" => "block"];

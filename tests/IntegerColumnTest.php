@@ -6,14 +6,14 @@ use MicroCRUD\DateColumn;
 
 class IntegerColumnTest extends \PHPUnit\Framework\TestCase
 {
-    public $db;
+    public \FFSPHP\PDO $db;
 
     public function setUp(): void
     {
         $this->db = create_mock_db();
     }
 
-    public function test_exact_match()
+    public function test_exact_match(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r_banner_id" => "1"];

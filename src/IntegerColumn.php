@@ -10,4 +10,9 @@ class IntegerColumn extends Column
     {
         return "({$this->name} = :{$this->name})";
     }
+
+    public function display(array $row): \MicroHTML\HTMLElement|string
+    {
+        return (string)($row[$this->name]);
+    }
 }

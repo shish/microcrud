@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 class TableFilterTest extends \PHPUnit\Framework\TestCase
 {
-    public $db = null;
+    public \FFSPHP\PDO $db;
 
     public function setUp(): void
     {
         $this->db = create_mock_db();
     }
 
-    public function test_default()
+    public function test_default(): void
     {
         $t = new IPBanTable($this->db);
         list($q, $a) = $t->get_filter();
@@ -20,7 +20,7 @@ class TableFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $a);
     }
 
-    public function test_flag()
+    public function test_flag(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on"];

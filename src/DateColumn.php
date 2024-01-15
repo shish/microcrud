@@ -15,7 +15,7 @@ class DateColumn extends Column
         return "({$this->name} >= :{$this->name}_0 AND {$this->name} < :{$this->name}_1)";
     }
 
-    public function read_input(array $inputs)
+    public function read_input(array $inputs): \MicroHTML\HTMLElement|string
     {
         return emptyHTML(
             INPUT([
@@ -32,7 +32,7 @@ class DateColumn extends Column
         );
     }
 
-    public function modify_input_for_read($input)
+    public function modify_input_for_read(string|array $input): mixed
     {
         list($s, $e) = $input;
         if (empty($s)) {
@@ -49,7 +49,7 @@ class DateColumn extends Column
         return [$s, $e];
     }
 
-    public function display(array $row)
+    public function display(array $row): \MicroHTML\HTMLElement|string
     {
         if (is_null($row[$this->name])) {
             return "";
@@ -57,7 +57,7 @@ class DateColumn extends Column
         return substr($row[$this->name], 0, 10);
     }
 
-    public function create_input(array $inputs)
+    public function create_input(array $inputs): \MicroHTML\HTMLElement|string
     {
         return INPUT([
             "type" => "date",
