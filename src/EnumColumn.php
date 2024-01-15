@@ -9,13 +9,13 @@ use function MicroHTML\OPTION;
 
 class EnumColumn extends Column
 {
-    /** @var string[] */
+    /** @var array<string, string> */
     public array $options;
 
     /**
-     * @param string[] $options
+     * @param array<string, string> $options
      */
-    public function __construct(string $name, string $title, $options)
+    public function __construct(string $name, string $title, array $options)
     {
         parent::__construct(
             $name,

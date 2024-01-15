@@ -13,6 +13,7 @@ class TextColumn extends Column
 
     public function modify_input_for_read(string|array $input): mixed
     {
+        assert(is_string($input));
         return "%$input%";
     }
 }

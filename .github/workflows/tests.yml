@@ -64,7 +64,7 @@ jobs:
     - uses: php-actions/phpstan@v3
       with:
         path: src
-        level: 5
+        level: 8
 
   format:
     name: Formatting

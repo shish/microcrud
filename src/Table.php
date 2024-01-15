@@ -47,15 +47,13 @@ function emptyish_to_null(mixed $val)
 {
     // convert an array of empty strings into an empty value
     if (is_array($val)) {
-        $val = array_map("trim", $val);
-        if (all_empty($val)) {
+        if (all_empty(array_map("trim", $val))) {
             $val = null;
         }
     }
     // convert whitespace-only strings to empty value
     elseif (is_string($val)) {
-        $val = trim($val);
-        if ($val == "") {
+        if (trim($val) == "") {
             $val = null;
         }
     }
@@ -91,7 +89,7 @@ class Table
     public ?string $delete_url = null;
     public ?string $token = null;
 
-    /** @var array<string, string|int|null> - eg $_POST */
+    /** @var array<string, mixed> - eg $_POST */
     public array $inputs = [];
 
     public function __construct(PDO $db)

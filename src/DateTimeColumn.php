@@ -34,6 +34,7 @@ class DateTimeColumn extends Column
 
     public function modify_input_for_read(string|array $input): mixed
     {
+        assert(is_array($input));
         list($s, $e) = $input;
         if (empty($s)) {
             $s = "0001/01/01";

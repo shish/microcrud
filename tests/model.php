@@ -30,6 +30,7 @@ class CustomColumn extends Column
 
     public function modify_input_for_read(string|array $input): mixed
     {
+        assert(is_string($input));
         $user = $input;
         if (preg_match("/[0-9.]+/", $input)) {
             $ip = $input;
