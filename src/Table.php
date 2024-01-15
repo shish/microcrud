@@ -76,7 +76,7 @@ class Table
     public array $order_by = [];
     /**
      * @var array<string, array<string|null>>
-     * 
+     *
      * flag => [filter_if_false, filter_if_true]
      * eg
      * "show_deleted" => ["(deleted=0)", "(deleted=1)"]
