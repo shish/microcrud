@@ -31,7 +31,7 @@ class Column
      */
     public function display(array $row): \MicroHTML\HTMLElement|string
     {
-        return $row[$this->name];
+        return $row[$this->name] ?? "";
     }
 
     /**
