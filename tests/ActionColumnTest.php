@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 class ActionColumnTest extends \PHPUnit\Framework\TestCase
 {
-    public $db = null;
+    public \FFSPHP\PDO $db;
 
     public function setUp(): void
     {
         $this->db = create_mock_db();
     }
 
-    public function test_like()
+    public function test_like(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r_id" => "42"];
@@ -21,7 +21,7 @@ class ActionColumnTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $a);
     }
 
-    public function test_display()
+    public function test_display(): void
     {
         $c = new \MicroCRUD\ActionColumn("id");
         $c->table = new IPBanTable($this->db);

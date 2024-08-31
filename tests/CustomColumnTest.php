@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 class CustomColumnTest extends \PHPUnit\Framework\TestCase
 {
-    public $db = null;
+    public \FFSPHP\PDO $db;
 
     public function setUp(): void
     {
@@ -14,7 +14,7 @@ class CustomColumnTest extends \PHPUnit\Framework\TestCase
     // `WHERE ip_address = 'Alice'` is a syntax error in postgres - so
     // we need to check if the search string is a valid IP, and replace
     // with null if not
-    public function test_custom_user()
+    public function test_custom_user(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r_user_or_ip" => "Alice"];
@@ -28,7 +28,7 @@ class CustomColumnTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("Alice", $rows[0]["banner"]);
     }
 
-    public function test_custom_ip()
+    public function test_custom_ip(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r_user_or_ip" => "1.2.3.4"];

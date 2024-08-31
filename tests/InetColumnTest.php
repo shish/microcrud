@@ -6,7 +6,7 @@ use MicroCRUD\DateColumn;
 
 class InetColumnTest extends \PHPUnit\Framework\TestCase
 {
-    public $db;
+    public \FFSPHP\PDO $db;
 
     public function setUp(): void
     {
@@ -14,7 +14,7 @@ class InetColumnTest extends \PHPUnit\Framework\TestCase
     }
 
     // Unit tests
-    public function test_default_sql()
+    public function test_default_sql(): void
     {
         $mock_db = $this->createMock(\FFSPHP\PDO::class);
         $mock_db->method('getAttribute')->willReturn('sqlite');
@@ -24,7 +24,7 @@ class InetColumnTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("(ip = :ip)", $q);
     }
 
-    public function test_postgres_sql()
+    public function test_postgres_sql(): void
     {
         $mock_db = $this->createMock(\FFSPHP\PDO::class);
         $mock_db->method('getAttribute')->willReturn('pgsql');
@@ -35,7 +35,7 @@ class InetColumnTest extends \PHPUnit\Framework\TestCase
     }
 
     // Integration tests
-    public function test_inet_exact_search()
+    public function test_inet_exact_search(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r_ip" => "1.2.3.4"];
@@ -52,7 +52,7 @@ class InetColumnTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1, $t->count());
     }
 
-    public function test_inet_range_search()
+    public function test_inet_range_search(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r_ip" => "1.2.3.0/30"];

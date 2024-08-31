@@ -6,14 +6,14 @@ use MicroCRUD\DateTimeColumn;
 
 class DateTimeColumnTest extends \PHPUnit\Framework\TestCase
 {
-    public $db;
+    public \FFSPHP\PDO $db;
 
     public function setUp(): void
     {
         $this->db = create_mock_db();
     }
 
-    public function test_date_range_search()
+    public function test_date_range_search(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r_expires" => ["2005/01/01", "2015/02/01"]];
@@ -27,7 +27,7 @@ class DateTimeColumnTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(81, $t->count());
     }
 
-    public function test_date_range_open_end()
+    public function test_date_range_open_end(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r_expires" => ["1985/01/01", ""]];
@@ -41,7 +41,7 @@ class DateTimeColumnTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(162, $t->count());
     }
 
-    public function test_date_range_open_start()
+    public function test_date_range_open_start(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r_expires" => ["", "2015/02/01"]];
@@ -55,7 +55,7 @@ class DateTimeColumnTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(81, $t->count());
     }
 
-    public function test_date_range_empty()
+    public function test_date_range_empty(): void
     {
         $t = new IPBanTable($this->db);
         $t->inputs = ["r_all" => "on", "r_expires" => ["", ""]];
@@ -65,7 +65,7 @@ class DateTimeColumnTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $a);
     }
 
-    public function test_display()
+    public function test_display(): void
     {
         $c = new DateTimeColumn("test", "Test");
         $this->assertEquals(

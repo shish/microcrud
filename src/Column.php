@@ -8,10 +8,10 @@ use function MicroHTML\INPUT;
 
 class Column
 {
-    public $name;
-    public $title;
-    public $table;
-    public $sortable = true;
+    public string $name;
+    public string $title;
+    public Table $table;
+    public bool $sortable = true;
 
     public function __construct(string $name, string $title)
     {
@@ -26,12 +26,18 @@ class Column
         return "({$this->name} = :{$this->name})";
     }
 
-    public function display(array $row)
+    /**
+     * @param array<string, mixed> $row
+     */
+    public function display(array $row): \MicroHTML\HTMLElement|string
     {
-        return $row[$this->name];
+        return $row[$this->name] ?? "";
     }
 
-    public function read_input(array $inputs)
+    /**
+     * @param array<string, string> $inputs
+     */
+    public function read_input(array $inputs): \MicroHTML\HTMLElement|string
     {
         return INPUT([
             "type" => "text",
@@ -43,12 +49,18 @@ class Column
 
     // A filter function applied to inputs for this column, eg
     // "bob" -> "%bob%"
-    public function modify_input_for_read($input)
+    /**
+     * @param string|string[] $input
+     */
+    public function modify_input_for_read(string|array $input): mixed
     {
         return $input;
     }
 
-    public function create_input(array $inputs)
+    /**
+     * @param array<string, string> $inputs
+     */
+    public function create_input(array $inputs): \MicroHTML\HTMLElement|string
     {
         return INPUT([
             "type" => "text",

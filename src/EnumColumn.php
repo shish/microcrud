@@ -9,9 +9,13 @@ use function MicroHTML\OPTION;
 
 class EnumColumn extends Column
 {
-    public $options;
+    /** @var array<string, string> */
+    public array $options;
 
-    public function __construct($name, $title, $options)
+    /**
+     * @param array<string, string> $options
+     */
+    public function __construct(string $name, string $title, array $options)
     {
         parent::__construct(
             $name,
@@ -20,7 +24,7 @@ class EnumColumn extends Column
         $this->options = $options;
     }
 
-    public function read_input($inputs)
+    public function read_input(array $inputs): \MicroHTML\HTMLElement|string
     {
         $s = SELECT(["name" => "r_{$this->name}"]);
         $s->appendChild(OPTION(["value" => ""], '-'));
@@ -34,7 +38,7 @@ class EnumColumn extends Column
         return $s;
     }
 
-    public function create_input($inputs)
+    public function create_input(array $inputs): \MicroHTML\HTMLElement|string
     {
         $s = SELECT(["name" => "c_{$this->name}"]);
         foreach ($this->options as $k => $v) {

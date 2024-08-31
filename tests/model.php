@@ -28,8 +28,9 @@ class CustomColumn extends Column
         return "((ip=:user_or_ip_1) OR (banner=:user_or_ip_0))";
     }
 
-    public function modify_input_for_read($input)
+    public function modify_input_for_read(string|array $input): mixed
     {
+        assert(is_string($input));
         $user = $input;
         if (preg_match("/[0-9.]+/", $input)) {
             $ip = $input;
@@ -39,7 +40,7 @@ class CustomColumn extends Column
         return [$user, $ip];
     }
 
-    public function display($row)
+    public function display(array $row): \MicroHTML\HTMLElement|string
     {
         if ($row['ip'] == "1.2.3.4") {
             return A(["href" => "/users/edwin"], "Edwin");
@@ -85,7 +86,7 @@ class IPBanTable extends Table
     }
 }
 
-function create_mock_db()
+function create_mock_db(): PDO
 {
     $e = getenv('DSN');
     $dsn = $e ? $e : 'sqlite::memory:';

@@ -14,15 +14,15 @@
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.2",
         "ext-pdo": "*",
         "shish/ffsphp": "^1.0",
         "shish/microhtml": "^2.0.2"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer" : "^3.12",
-        "phpunit/phpunit": "^9.0",
-        "phpstan/phpstan": "^1.9"
+        "friendsofphp/php-cs-fixer" : "^3.64",
+        "phpunit/phpunit": "^11.0",
+        "phpstan/phpstan": "^1.12"
     },
     "autoload": {
         "psr-4": {

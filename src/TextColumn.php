@@ -11,8 +11,9 @@ class TextColumn extends Column
         return "(LOWER({$this->name}) LIKE LOWER(:{$this->name}))";
     }
 
-    public function modify_input_for_read($input)
+    public function modify_input_for_read(string|array $input): mixed
     {
+        assert(is_string($input));
         return "%$input%";
     }
 }

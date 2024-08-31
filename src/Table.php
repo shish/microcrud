@@ -23,6 +23,11 @@ use function MicroHTML\A;
 use function MicroHTML\B;
 use function MicroHTML\BR;
 
+/**
+ * @template T
+ * @param T[] $val
+ * @return bool
+ */
 function all_empty(array $val): bool
 {
     foreach ($val as $v) {
@@ -33,19 +38,22 @@ function all_empty(array $val): bool
     return true;
 }
 
-function emptyish_to_null($val)
+/**
+ * @template T
+ * @param T $val
+ * @return T|null
+ */
+function emptyish_to_null(mixed $val)
 {
     // convert an array of empty strings into an empty value
     if (is_array($val)) {
-        $val = array_map("trim", $val);
-        if (all_empty($val)) {
+        if (all_empty(array_map("trim", $val))) {
             $val = null;
         }
     }
     // convert whitespace-only strings to empty value
     elseif (is_string($val)) {
-        $val = trim($val);
-        if ($val == "") {
+        if (trim($val) == "") {
             $val = null;
         }
     }
@@ -54,31 +62,45 @@ function emptyish_to_null($val)
 
 class Table
 {
-    public $db = null;
+    public PDO $db;
 
-    public $table = null;
-    public $base_query = null;
-    public $size = 100;
-    public $limit = 1000;
-    public $columns = [];
-    public $order_by = [];
-    public $flags = [];
-    public $primary_key = "id";
-    public $table_attrs = [];
+    public string $table;
+    public string $base_query;
+    public ?int $size = 100;
+    public int $limit = 1000;
+    /** @var Column[] */
+    public array $columns = [];
+    /** @var string[] */
+    public array $order_by = [];
+    /**
+     * @var array<string, array<string|null>>
+     *
+     * flag => [filter_if_false, filter_if_true]
+     * eg
+     * "show_deleted" => ["(deleted=0)", "(deleted=1)"]
+     */
+    public array $flags = [];
+    public string $primary_key = "id";
+    /** @var array<string, mixed> */
+    public array $table_attrs = [];
 
-    public $create_url = null;
-    public $update_url = null;
-    public $delete_url = null;
-    public $token = null;
+    public ?string $create_url = null;
+    public ?string $update_url = null;
+    public ?string $delete_url = null;
+    public ?string $token = null;
 
-    public $inputs = [];
+    /** @var array<string, mixed> - eg $_POST */
+    public array $inputs = [];
 
     public function __construct(PDO $db)
     {
         $this->db = $db;
     }
 
-    public function set_columns(array $columns)
+    /**
+     * @param Column[] $columns
+     */
+    public function set_columns(array $columns): void
     {
         $this->columns = $columns;
         foreach ($this->columns as $col) {
@@ -105,6 +127,9 @@ class Table
     }
 
     // database
+    /**
+     * @return array{0: string, 1: array<string, mixed>}
+     */
     public function get_filter(): array
     {
         $filters = [];
@@ -144,6 +169,9 @@ class Table
         return [implode(" AND ", $filters), $args];
     }
 
+    /**
+     * @return array<array<string, mixed>>
+     */
     public function query(): array
     {
         // WHERE
@@ -213,6 +241,9 @@ class Table
     }
 
     // html generation
+    /**
+     * @param array<array<string, mixed>> $rows
+     */
     public function table(array $rows): HTMLElement
     {
         return html_TABLE(
@@ -267,6 +298,9 @@ class Table
         return $thead;
     }
 
+    /**
+     * @param array<array<string, mixed>> $rows
+     */
     public function tbody(array $rows): HTMLElement
     {
         $tbody = TBODY(["id" => "update"]);
@@ -293,6 +327,9 @@ class Table
         return $tfoot;
     }
 
+    /**
+     * @param array<string, mixed> $changes
+     */
     public function modify_url(array $changes): string
     {
         $args_copy = $this->inputs;
