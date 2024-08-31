@@ -56,7 +56,7 @@ jobs:
         if [[ "${{ matrix.database }}" == "sqlite" ]]; then
             export DSN="sqlite::memory:"
         fi
-        vendor/bin/phpunit tests --coverage-text --whitelist src
+        vendor/bin/phpunit tests --coverage-text --coverage-filter src
 
   static:
     name: Static Analysis
