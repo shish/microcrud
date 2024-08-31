@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once "model.php";
+
 class CustomColumnTest extends \PHPUnit\Framework\TestCase
 {
     public \FFSPHP\PDO $db;
