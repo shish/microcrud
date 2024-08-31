@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once "model.php";
+
 use MicroCRUD\DateTimeColumn;
 
 class DateTimeColumnTest extends \PHPUnit\Framework\TestCase

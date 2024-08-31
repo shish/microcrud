@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once "model.php";
+
 use MicroCRUD\EnumColumn;
 
 class EnumColumnTest extends \PHPUnit\Framework\TestCase
