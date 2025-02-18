@@ -68,7 +68,7 @@ jobs:
           path: vendor
           key: vendor-${{ hashFiles('composer.json') }}
       - uses: php-actions/composer@v6
-      - run: composer analyse
+      - run: composer analyse-ci
 
   format:
     name: Formatting
