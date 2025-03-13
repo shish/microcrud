@@ -83,9 +83,9 @@ class Table
     /** @var array<string, mixed> */
     public array $table_attrs = [];
 
-    public ?string $create_url = null;
-    public ?string $update_url = null;
-    public ?string $delete_url = null;
+    public string|\Stringable|null $create_url = null;
+    public string|\Stringable|null $update_url = null;
+    public string|\Stringable|null $delete_url = null;
     public ?string $token = null;
 
     /** @var array<string, mixed> - eg $_POST */

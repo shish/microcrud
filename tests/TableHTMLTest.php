@@ -4,6 +4,14 @@ declare(strict_types=1);
 
 require_once "model.php";
 
+class MockUrl
+{
+    public function __toString(): string
+    {
+        return "https://example.com";
+    }
+}
+
 class TableHTMLTest extends \PHPUnit\Framework\TestCase
 {
     public \FFSPHP\PDO $db;
@@ -43,5 +51,14 @@ class TableHTMLTest extends \PHPUnit\Framework\TestCase
     {
         $t = new IPBanTable($this->db);
         $this->assertStringContainsString("1", (string)$t->paginator());
+    }
+
+    public function test_stringable_url(): void
+    {
+        $t = new IPBanTable($this->db);
+        $t->create_url = new MockUrl();
+        $rows = $t->query();
+        $html = $t->table($rows);
+        $this->assertStringContainsString("https://example.com", (string)$html);
     }
 }

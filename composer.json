@@ -20,7 +20,7 @@
         "php": "^8.2",
         "ext-pdo": "*",
         "shish/ffsphp": "^1.0",
-        "shish/microhtml": "^2.0.2"
+        "shish/microhtml": "^2.4.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.64",
