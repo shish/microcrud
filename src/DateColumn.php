@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MicroCRUD;
 
+use MicroHTML\HTMLElement;
+
 use function MicroHTML\INPUT;
 use function MicroHTML\emptyHTML;
 use function MicroHTML\BR;
@@ -15,7 +17,7 @@ class DateColumn extends Column
         return "({$this->name} >= :{$this->name}_0 AND {$this->name} < :{$this->name}_1)";
     }
 
-    public function read_input(array $inputs): \MicroHTML\HTMLElement|string
+    public function read_input(array $inputs): HTMLElement|string
     {
         return emptyHTML(
             INPUT([
@@ -50,7 +52,7 @@ class DateColumn extends Column
         return [$s, $e];
     }
 
-    public function display(array $row): \MicroHTML\HTMLElement|string
+    public function display(array $row): HTMLElement|string
     {
         if (is_null($row[$this->name])) {
             return "";
@@ -58,7 +60,7 @@ class DateColumn extends Column
         return substr($row[$this->name], 0, 10);
     }
 
-    public function create_input(array $inputs): \MicroHTML\HTMLElement|string
+    public function create_input(array $inputs): HTMLElement|string
     {
         return INPUT([
             "type" => "date",

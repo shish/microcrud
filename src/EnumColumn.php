@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MicroCRUD;
 
+use MicroHTML\HTMLElement;
+
 use function MicroHTML\SELECT;
 use function MicroHTML\OPTION;
 
@@ -24,7 +26,7 @@ class EnumColumn extends Column
         $this->options = $options;
     }
 
-    public function read_input(array $inputs): \MicroHTML\HTMLElement|string
+    public function read_input(array $inputs): HTMLElement|string
     {
         $s = SELECT(["name" => "r_{$this->name}"]);
         $s->appendChild(OPTION(["value" => ""], '-'));
@@ -38,7 +40,7 @@ class EnumColumn extends Column
         return $s;
     }
 
-    public function create_input(array $inputs): \MicroHTML\HTMLElement|string
+    public function create_input(array $inputs): HTMLElement|string
     {
         $s = SELECT(["name" => "c_{$this->name}"]);
         foreach ($this->options as $k => $v) {

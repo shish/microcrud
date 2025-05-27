@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MicroCRUD;
 
+use MicroHTML\HTMLElement;
+
 use function MicroHTML\INPUT;
 
 class Column
@@ -29,7 +31,7 @@ class Column
     /**
      * @param array<string, mixed> $row
      */
-    public function display(array $row): \MicroHTML\HTMLElement|string
+    public function display(array $row): HTMLElement|string
     {
         return $row[$this->name] ?? "";
     }
@@ -37,7 +39,7 @@ class Column
     /**
      * @param array<string, string> $inputs
      */
-    public function read_input(array $inputs): \MicroHTML\HTMLElement|string
+    public function read_input(array $inputs): HTMLElement|string
     {
         return INPUT([
             "type" => "text",
@@ -60,7 +62,7 @@ class Column
     /**
      * @param array<string, string> $inputs
      */
-    public function create_input(array $inputs): \MicroHTML\HTMLElement|string
+    public function create_input(array $inputs): HTMLElement|string
     {
         return INPUT([
             "type" => "text",

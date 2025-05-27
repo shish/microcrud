@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 require_once "model.php";
 
+use MicroCRUD\ActionColumn;
+
 class ActionColumnTest extends \PHPUnit\Framework\TestCase
 {
     public \FFSPHP\PDO $db;
@@ -25,7 +27,7 @@ class ActionColumnTest extends \PHPUnit\Framework\TestCase
 
     public function test_display(): void
     {
-        $c = new \MicroCRUD\ActionColumn("id");
+        $c = new ActionColumn("id");
         $c->table = new IPBanTable($this->db);
         $this->assertStringContainsString(
             "type='hidden' name='d_id' value='42'",

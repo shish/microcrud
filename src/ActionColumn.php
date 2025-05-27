@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MicroCRUD;
 
+use MicroHTML\HTMLElement;
+
 use function MicroHTML\FORM;
 use function MicroHTML\INPUT;
 use function MicroHTML\emptyHTML;
@@ -16,7 +18,7 @@ class ActionColumn extends Column
         $this->sortable = false;
     }
 
-    public function read_input(array $inputs): \MicroHTML\HTMLElement|string
+    public function read_input(array $inputs): HTMLElement|string
     {
         return emptyHTML(
             INPUT(["type" => "hidden", "name" => "r__size", "value" => @$inputs["r__size"]]),
@@ -25,7 +27,7 @@ class ActionColumn extends Column
         );
     }
 
-    public function display(array $row): \MicroHTML\HTMLElement|string
+    public function display(array $row): HTMLElement|string
     {
         if ($this->table->delete_url) {
             return FORM(
@@ -39,7 +41,7 @@ class ActionColumn extends Column
         }
     }
 
-    public function create_input(array $inputs): \MicroHTML\HTMLElement|string
+    public function create_input(array $inputs): HTMLElement|string
     {
         return emptyHTML(
             INPUT(["type" => "hidden", "name" => "auth_token", "value" => $this->table->token]),
