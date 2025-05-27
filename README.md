@@ -49,3 +49,9 @@ Postgres, it supports range matching (eg searching for "1.2.3.0/24" will
 return search results including "1.2.3.6"). It'd be nice to support this
 cross-database, but pragmatically, one person has asked for this feature,
 they are using postgres as a backend, and postgres makes this trivial :P
+
+Dev Notes
+---------
+```
+php -S localhost:4242 -t tests
+```
