@@ -6,6 +6,7 @@ namespace MicroCRUD;
 
 use MicroHTML\HTMLElement;
 
+use function MicroHTML\BUTTON;
 use function MicroHTML\FORM;
 use function MicroHTML\INPUT;
 use function MicroHTML\emptyHTML;
@@ -23,7 +24,7 @@ class ActionColumn extends Column
         return emptyHTML(
             INPUT(["type" => "hidden", "name" => "r__size", "value" => @$inputs["r__size"]]),
             INPUT(["type" => "hidden", "name" => "r__page", "value" => 1]),
-            INPUT(["type" => "submit", "value" => "Search"])
+            BUTTON(["type" => "submit"], "Search")
         );
     }
 
@@ -34,7 +35,7 @@ class ActionColumn extends Column
                 ["method" => "POST", "action" => $this->table->delete_url],
                 INPUT(["type" => "hidden", "name" => "auth_token", "value" => $this->table->token]),
                 INPUT(["type" => "hidden", "name" => "d_{$this->name}", "value" => $row[$this->name]]),
-                INPUT(["type" => "submit", "value" => "Delete"])
+                BUTTON(["type" => "submit"], "Delete")
             );
         } else {
             return emptyHTML();
@@ -45,7 +46,7 @@ class ActionColumn extends Column
     {
         return emptyHTML(
             INPUT(["type" => "hidden", "name" => "auth_token", "value" => $this->table->token]),
-            INPUT(["type" => "submit", "value" => "Add"])
+            BUTTON(["type" => "submit"], "Add")
         );
     }
 
