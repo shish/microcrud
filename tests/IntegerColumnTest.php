@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once "model.php";
+require_once __DIR__ . "/model.php";
 
 class IntegerColumnTest extends \PHPUnit\Framework\TestCase
 {

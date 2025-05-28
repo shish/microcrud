@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-require_once "../vendor/autoload.php";
-require_once "model.php";
+require_once __DIR__ . "/../vendor/autoload.php";
+require_once __DIR__ . "/model.php";
 
 $db = create_mock_db();
 $t = new IPBanTable($db);
