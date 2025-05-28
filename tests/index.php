@@ -38,6 +38,19 @@ select {
     width: 100%;
     box-sizing: border-box;
 }
+.dialog-header {
+    display: flex;
+    justify-content: space-between;
+}
+.dialog-header button {
+    flex: 0;
+}
+.dialog-buttons {
+    display: flex;
+}
+.dialog-buttons button {
+    flex: 1;
+}
     </style>
 </head>
 <body>

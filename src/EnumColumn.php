@@ -52,4 +52,17 @@ class EnumColumn extends Column
         }
         return $s;
     }
+
+    public function update_input(array $row): HTMLElement|string|null
+    {
+        $s = SELECT(["name" => "u_{$this->name}"]);
+        foreach ($this->options as $k => $v) {
+            $attrs = ["value" => $v];
+            if ($v == $row[$this->name]) {
+                $attrs["selected"] = true;
+            }
+            $s->appendChild(OPTION($attrs, $k));
+        }
+        return $s;
+    }
 }

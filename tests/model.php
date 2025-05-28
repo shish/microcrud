@@ -12,6 +12,7 @@ use MicroCRUD\TextColumn;
 use MicroCRUD\EnumColumn;
 use MicroCRUD\Column;
 use MicroCRUD\Table;
+use MicroHTML\HTMLElement;
 use FFSPHP\PDO;
 
 use function MicroHTML\A;
@@ -40,13 +41,18 @@ class CustomColumn extends Column
         return [$user, $ip];
     }
 
-    public function display(array $row): \MicroHTML\HTMLElement|string
+    public function display(array $row): HTMLElement|string
     {
         if ($row['ip'] == "1.2.3.4") {
             return A(["href" => "/users/edwin"], "Edwin");
         } else {
             return $row['ip'];
         }
+    }
+
+    public function update_input(array $row): HTMLElement|string|null
+    {
+        return null;
     }
 }
 
@@ -82,6 +88,7 @@ class IPBanTable extends Table
             "all" => ["((expires > CURRENT_TIMESTAMP) OR (expires IS NULL))", null],
         ];
         $this->create_url = "/ip_ban/create";
+        $this->update_url = "/ip_ban/update";
         $this->delete_url = "/ip_ban/remove";
     }
 }

@@ -71,4 +71,17 @@ class Column
             "value" => @$inputs["c_{$this->name}"]
         ]);
     }
+
+    /**
+     * @param array<string, mixed> $row
+     */
+    public function update_input(array $row): HTMLElement|string|null
+    {
+        return INPUT([
+            "type" => "text",
+            "name" => "u_{$this->name}",
+            "placeholder" => $this->title,
+            "value" => $row[$this->name] ?? ""
+        ]);
+    }
 }

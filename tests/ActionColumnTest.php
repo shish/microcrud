@@ -25,11 +25,39 @@ class ActionColumnTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $a);
     }
 
-    public function test_display(): void
+    public function test_display_full(): void
     {
         $c = new ActionColumn("id");
         $c->table = new IPBanTable($this->db);
         $this->assertStringContainsString(
+            "type='hidden' name='d_id' value='42'",
+            (string)$c->display([
+                "id" => 42,
+                "expires" => null,
+                "added" => null,
+                "mode" => null,
+            ])
+        );
+    }
+
+    public function test_display_no_edit(): void
+    {
+        $c = new ActionColumn("id");
+        $c->table = new IPBanTable($this->db);
+        $c->table->update_url = null;
+        $this->assertStringContainsString(
+            "type='hidden' name='d_id' value='42'",
+            (string)$c->display(["id" => 42])
+        );
+    }
+
+    public function test_display_no_delete(): void
+    {
+        $c = new ActionColumn("id");
+        $c->table = new IPBanTable($this->db);
+        $c->table->update_url = null;
+        $c->table->delete_url = null;
+        $this->assertStringNotContainsString(
             "type='hidden' name='d_id' value='42'",
             (string)$c->display(["id" => 42])
         );

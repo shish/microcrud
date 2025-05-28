@@ -68,4 +68,13 @@ class DateColumn extends Column
             "value" => @$inputs["c_{$this->name}"]
         ]);
     }
+
+    public function update_input(array $row): HTMLElement|string|null
+    {
+        return INPUT([
+            "type" => "date",
+            "name" => "u_{$this->name}",
+            "value" => $row[$this->name]
+        ]);
+    }
 }
