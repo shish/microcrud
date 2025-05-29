@@ -34,4 +34,18 @@ class TableFilterTest extends \PHPUnit\Framework\TestCase
         $rows = $t->query();
         $this->assertEquals("1.2.3.1", $rows[0]["ip"]);
     }
+
+    public function test_flag_filtered_on(): void
+    {
+        $t = new IPBanTable($this->db);
+        $t->flags = ["lefthand" => ["hand=0", "hand=1"]];
+
+        $t->inputs = ["r_lefthand" => "on"];
+        list($q, $a) = $t->get_filter();
+        $this->assertEquals("hand=1", $q);
+
+        $t->inputs = [];
+        list($q, $a) = $t->get_filter();
+        $this->assertEquals("hand=0", $q);
+    }
 }

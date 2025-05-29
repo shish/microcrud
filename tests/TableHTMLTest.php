@@ -29,6 +29,15 @@ class TableHTMLTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf("\MicroHTML\HTMLElement", $html);
     }
 
+    public function test_extra_inputs(): void
+    {
+        $t = new IPBanTable($this->db);
+        $t->inputs = ["extra_input" => "42"];
+        $rows = $t->query();
+        $html = $t->table($rows);
+        $this->assertStringContainsString("name='extra_input' value='42'", (string)$html);
+    }
+
     public function test_no_delete(): void
     {
         $t = new IPBanTable($this->db);
