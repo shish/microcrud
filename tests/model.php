@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use MicroCRUD\SelectColumn;
 use MicroCRUD\ActionColumn;
 use MicroCRUD\InetColumn;
 use MicroCRUD\IntegerColumn;
@@ -72,6 +73,7 @@ class IPBanTable extends Table
         $this->size = 10;
         $this->limit = 20;
         $this->set_columns([
+            new SelectColumn("id"),
             new InetColumn("ip", "IP"),
             new EnumColumn("mode", "Mode", ["Block" => "block", "Firewall" => "firewall", "Read-only" => "readonly"]),
             new TextColumn("reason", "Reason"),
@@ -89,6 +91,7 @@ class IPBanTable extends Table
         ];
         $this->create_url = "/ip_ban/create";
         $this->update_url = "/ip_ban/update";
+        $this->bulk_url = "/ip_ban/bulk";
         $this->delete_url = "/ip_ban/remove";
     }
 }

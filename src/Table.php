@@ -84,6 +84,7 @@ class Table
     public array $table_attrs = [];
 
     public string|\Stringable|null $create_url = null;
+    public string|\Stringable|null $bulk_url = null;
     public string|\Stringable|null $update_url = null;
     public string|\Stringable|null $delete_url = null;
     public ?string $token = null;
@@ -245,15 +246,27 @@ class Table
      */
     public function table(array $rows): HTMLElement
     {
-        return html_TABLE(
-            $this->table_attrs,
-            "\n",
-            $this->thead(),
-            "\n",
-            $this->tbody($rows),
-            "\n",
-            $this->tfoot(),
-            "\n"
+        $bulk_form = null;
+        if ($this->bulk_url) {
+            $bulk_form = FORM(
+                ["method" => "POST", "action" => $this->bulk_url, "id" => "bulk"],
+                INPUT(["type" => "hidden", "name" => "auth_token", "value" => $this->token]),
+                INPUT(["type" => "hidden", "name" => "r__page", "value" => @$this->inputs["r__page"]]),
+                INPUT(["type" => "hidden", "name" => "r__size", "value" => @$this->inputs["r__size"]])
+            );
+        }
+        return emptyHTML(
+            $bulk_form,
+            html_TABLE(
+                $this->table_attrs,
+                "\n",
+                $this->thead(),
+                "\n",
+                $this->tbody($rows),
+                "\n",
+                $this->tfoot(),
+                "\n"
+            )
         );
     }
 
