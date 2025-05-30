@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 require_once __DIR__ . "/model.php";
 
+use MicroHTML\HTMLElement;
+
 class MockUrl
 {
     public function __toString(): string
@@ -26,7 +28,7 @@ class TableHTMLTest extends \PHPUnit\Framework\TestCase
         $t = new IPBanTable($this->db);
         $rows = $t->query();
         $html = $t->table($rows);
-        $this->assertInstanceOf("\MicroHTML\HTMLElement", $html);
+        $this->assertInstanceOf(HTMLElement::class, $html);
     }
 
     public function test_extra_inputs(): void
@@ -44,7 +46,7 @@ class TableHTMLTest extends \PHPUnit\Framework\TestCase
         $t->delete_url = null;
         $rows = $t->query();
         $html = $t->table($rows);
-        $this->assertInstanceOf("\MicroHTML\HTMLElement", $html);
+        $this->assertInstanceOf(HTMLElement::class, $html);
     }
 
     public function test_table_attrs(): void
