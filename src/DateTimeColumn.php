@@ -23,13 +23,13 @@ class DateTimeColumn extends Column
             INPUT([
                 "type" => "datetime-local",
                 "name" => "r_{$this->name}[]",
-                "value" => @$inputs["r_{$this->name}"][0]
+                "value" => $inputs["r_{$this->name}"][0] ?? ""
             ]),
             BR(),
             INPUT([
                 "type" => "datetime-local",
                 "name" => "r_{$this->name}[]",
-                "value" => @$inputs["r_{$this->name}"][1]
+                "value" => $inputs["r_{$this->name}"][1] ?? ""
             ])
         );
     }
@@ -60,7 +60,7 @@ class DateTimeColumn extends Column
         return INPUT([
             "type" => "datetime-local",
             "name" => "c_{$this->name}",
-            "value" => @$inputs["c_{$this->name}"]
+            "value" => $inputs["c_{$this->name}"] ?? ""
         ]);
     }
 

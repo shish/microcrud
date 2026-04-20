@@ -32,7 +32,7 @@ class EnumColumn extends Column
         $s->appendChild(OPTION(["value" => ""], '-'));
         foreach ($this->options as $k => $v) {
             $attrs = ["value" => $v];
-            if ($v == @$inputs["r_{$this->name}"]) {
+            if ($v == ($inputs["r_{$this->name}"] ?? null)) {
                 $attrs["selected"] = true;
             }
             $s->appendChild(OPTION($attrs, $k));
@@ -45,7 +45,7 @@ class EnumColumn extends Column
         $s = SELECT(["name" => "c_{$this->name}"]);
         foreach ($this->options as $k => $v) {
             $attrs = ["value" => $v];
-            if ($v == @$inputs["c_{$this->name}"]) {
+            if ($v == ($inputs["c_{$this->name}"] ?? null)) {
                 $attrs["selected"] = true;
             }
             $s->appendChild(OPTION($attrs, $k));
@@ -58,7 +58,7 @@ class EnumColumn extends Column
         $s = SELECT(["name" => "u_{$this->name}"]);
         foreach ($this->options as $k => $v) {
             $attrs = ["value" => $v];
-            if ($v == $row[$this->name]) {
+            if ($v == ($row[$this->name] ?? null)) {
                 $attrs["selected"] = true;
             }
             $s->appendChild(OPTION($attrs, $k));

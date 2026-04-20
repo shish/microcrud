@@ -23,13 +23,13 @@ class DateColumn extends Column
             INPUT([
                 "type" => "date",
                 "name" => "r_{$this->name}[]",
-                "value" => @$inputs["r_{$this->name}"][0]
+                "value" => $inputs["r_{$this->name}"][0] ?? ""
             ]),
             BR(),
             INPUT([
                 "type" => "date",
                 "name" => "r_{$this->name}[]",
-                "value" => @$inputs["r_{$this->name}"][1]
+                "value" => $inputs["r_{$this->name}"][1] ?? ""
             ])
         );
     }
@@ -65,7 +65,7 @@ class DateColumn extends Column
         return INPUT([
             "type" => "date",
             "name" => "c_{$this->name}",
-            "value" => @$inputs["c_{$this->name}"]
+            "value" => $inputs["c_{$this->name}"] ?? ""
         ]);
     }
 

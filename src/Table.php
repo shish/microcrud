@@ -135,7 +135,7 @@ class Table
         $filters = [];
         $args = [];
         foreach ($this->columns as $col) {
-            $val = emptyish_to_null(@$this->inputs["r_{$col->name}"]);
+            $val = emptyish_to_null($this->inputs["r_{$col->name}"] ?? null);
 
             if ($val != null) {
                 $filter = $col->get_sql_filter();
@@ -251,8 +251,8 @@ class Table
             $bulk_form = FORM(
                 ["method" => "POST", "action" => $this->bulk_url, "id" => "bulk"],
                 INPUT(["type" => "hidden", "name" => "auth_token", "value" => $this->token]),
-                INPUT(["type" => "hidden", "name" => "r__page", "value" => @$this->inputs["r__page"]]),
-                INPUT(["type" => "hidden", "name" => "r__size", "value" => @$this->inputs["r__size"]])
+                INPUT(["type" => "hidden", "name" => "r__page", "value" => $this->inputs["r__page"] ?? ""]),
+                INPUT(["type" => "hidden", "name" => "r__size", "value" => $this->inputs["r__size"] ?? ""])
             );
         }
         return emptyHTML(
@@ -277,7 +277,7 @@ class Table
         $tr = TR();
         foreach ($this->columns as $col) {
             if ($col->sortable) {
-                $sort_name = (@$this->inputs["r__sort"] == $col->name) ? "-{$col->name}" : $col->name;
+                $sort_name = (($this->inputs["r__sort"] ?? null) == $col->name) ? "-{$col->name}" : $col->name;
                 $sort = "?" . $this->modify_url(["r__sort" => $sort_name]);
                 $tr->appendChild(TH(A(["href" => $sort], $col->title)));
             } else {
@@ -294,7 +294,7 @@ class Table
         }
         foreach ($this->flags as $flag => $_vals) {
             $tr->appendChild(
-                INPUT(["type" => "hidden", "name" => "r_{$flag}", "value" => @$this->inputs["r_{$flag}"]])
+                INPUT(["type" => "hidden", "name" => "r_{$flag}", "value" => $this->inputs["r_{$flag}"] ?? ""])
             );
             $used_inputs[] = "r_{$flag}";
         }

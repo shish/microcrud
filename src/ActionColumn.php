@@ -29,7 +29,7 @@ class ActionColumn extends Column
     public function read_input(array $inputs): HTMLElement|string
     {
         return emptyHTML(
-            INPUT(["type" => "hidden", "name" => "r__size", "value" => @$inputs["r__size"]]),
+            INPUT(["type" => "hidden", "name" => "r__size", "value" => $inputs["r__size"] ?? ""]),
             INPUT(["type" => "hidden", "name" => "r__page", "value" => 1]),
             BUTTON(["type" => "submit"], "Search")
         );

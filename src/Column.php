@@ -45,7 +45,7 @@ class Column
             "type" => "text",
             "name" => "r_{$this->name}",
             "placeholder" => $this->title,
-            "value" => @$inputs["r_{$this->name}"]
+            "value" => $inputs["r_{$this->name}"] ?? ""
         ]);
     }
 
@@ -68,7 +68,7 @@ class Column
             "type" => "text",
             "name" => "c_{$this->name}",
             "placeholder" => $this->title,
-            "value" => @$inputs["c_{$this->name}"]
+            "value" => $inputs["c_{$this->name}"] ?? ""
         ]);
     }
 
