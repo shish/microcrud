@@ -80,7 +80,7 @@ class Table
      */
     public array $flags = [];
     public string $primary_key = "id";
-    /** @var array<string, mixed> */
+    /** @var array<literal-string, mixed> */
     public array $table_attrs = [];
 
     public string|\Stringable|null $create_url = null;
